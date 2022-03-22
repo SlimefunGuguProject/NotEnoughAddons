@@ -1,4 +1,4 @@
-package me.CHANGEME.slimefunaddon;
+package me.fhoz.notenoughaddons;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 
-public class ExampleAddon extends JavaPlugin implements SlimefunAddon {
+public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onEnable() {
@@ -28,7 +28,7 @@ public class ExampleAddon extends JavaPlugin implements SlimefunAddon {
          * 1. Creating a new Category
          * This Category will use the following ItemStack
          */
-        ItemStack itemGroupItem = new CustomItemStack(Material.DIAMOND, "&4Addon Category", "", "&a> Click to open");
+        ItemStack itemGroupItem = new CustomItemStack(Material.COCOA, "&4Addon Category", "", "&a> Click to open");
 
         // Give your Category a unique id.
         NamespacedKey itemGroupId = new NamespacedKey(this, "addon_category");
