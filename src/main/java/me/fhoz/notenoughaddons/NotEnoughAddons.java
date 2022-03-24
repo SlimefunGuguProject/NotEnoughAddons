@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import lombok.SneakyThrows;
+import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.utils.Constants;
 import me.fhoz.notenoughaddons.utils.Utils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -95,7 +96,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onDisable() {
-        // Logic for disabling the plugin...
+        AngelBlock.onDisable();
     }
 
     @Override

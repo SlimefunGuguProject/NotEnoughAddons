@@ -61,7 +61,7 @@ public final class Utils {
     }
 
     public static void send(CommandSender p, String message) {
-        p.sendMessage(color("&2&n&lN&r&aot&2&l&nE&r&anough&2&l&nA&r&addons &r" + message));
+        p.sendMessage(color("&2&n&lN&r&aot&2&l&nE&r&anough&2&l&nA&r&addons &r&7> &r" + message));
     }
 
     public static String multiBlockWarning() {

@@ -9,7 +9,9 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
+import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.utils.NEAItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 import javax.annotation.Nonnull;
 import org.bukkit.Material;
@@ -28,10 +30,10 @@ public final class NEAItemSetup {
         new CustomItemStack(Material.DEAD_BUSH, "&bMachines"), 1
     );
 
-    // private static final ItemGroup items = new SubItemGroup(
-    //     new NamespacedKey(NotEnoughAddons.getInstance(), "items"), notenoughaddons,
-    //     new CustomItemStack(Material.DIAMOND_PICKAXE, "&bItems"), 2
-    // );
+    private static final ItemGroup items = new SubItemGroup(
+        new NamespacedKey(NotEnoughAddons.getInstance(), "items"), notenoughaddons,
+        new CustomItemStack(Material.LEAD, "&bItems"), 2
+    );
 
     private NEAItemSetup() {
     }
@@ -43,6 +45,12 @@ public final class NEAItemSetup {
                 SlimefunItems.GOLD_PAN, new ItemStack(Material.DIAMOND), SlimefunItems.GOLD_PAN,
                 SlimefunItems.MAGNET, new ItemStack(Material.WATER_BUCKET), SlimefunItems.MAGNET
         }).register(plugin);
-    }
 
+        new AngelBlock(items, NEAItems.ANGEL_BLOCK,
+                RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
+                new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_2,  new ItemStack(Material.FEATHER),
+                SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.COBBLESTONE), SlimefunItems.MAGIC_LUMP_2,
+                new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FEATHER)
+        }).register(plugin);
+    }
 }
