@@ -55,7 +55,7 @@ public class AngelBlock extends SimpleSlimefunItem<ItemUseHandler> {
             blockLocation.setY(blockLocation.getY() - 1);
             Block targetBlock = p.getWorld().getBlockAt(blockLocation);
             if (targetBlock.getType() != Material.AIR) {
-                Utils.send(p, " > You can only place Angel Blocks in the air");
+                Utils.send(p, "You can only place Angel Blocks in the air");
                 return;
             }
             targetBlock.setType(Material.COBBLESTONE);
