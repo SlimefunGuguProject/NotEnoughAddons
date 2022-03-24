@@ -1,64 +1,96 @@
 package me.fhoz.notenoughaddons;
 
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import lombok.SneakyThrows;
+import me.fhoz.notenoughaddons.utils.Constants;
+import me.fhoz.notenoughaddons.utils.Utils;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.RayTraceResult;
 
 public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
+    private static NotEnoughAddons instance;
+    public static final HashMap<ItemStack, List<Pair<ItemStack, List<RecipeChoice>>>> shapedVanillaRecipes = new HashMap<>();
+    public static final HashMap<ItemStack, List<Pair<ItemStack, List<RecipeChoice>>>> shapelessVanillaRecipes =
+            new HashMap<>();
+
+    @SneakyThrows
     @Override
     public void onEnable() {
+        instance = this;
         // Read something from your config.yml
         Config cfg = new Config(this);
 
-        if (cfg.getBoolean("options.auto-update")) {
-            // You could start an Auto-Updater for example
+        //if (cfg.getBoolean("options.auto-update")) {
+        //    new GitHubBuildsUpdater(this, getFile(), "Fhoz/GlobiaMachines/master").start();
+        //}
+
+        // Register ACT Recipes
+        Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
+        while (recipeIterator.hasNext()) {
+            Recipe r = recipeIterator.next();
+
+            if (r instanceof ShapedRecipe) {
+                ShapedRecipe sr = (ShapedRecipe) r;
+                List<RecipeChoice> rc = new ArrayList<>();
+                ItemStack key = new ItemStack(sr.getResult().getType(), 1);
+
+                // Convert the recipe to a list
+                for (Map.Entry<Character, RecipeChoice> choice : sr.getChoiceMap().entrySet()) {
+                    if (choice.getValue() != null) {
+                        rc.add(choice.getValue());
+                    }
+                }
+
+                if (!shapedVanillaRecipes.containsKey(key)) {
+                    shapedVanillaRecipes.put(key,
+                            new ArrayList<>(Collections.singletonList(new Pair<>(sr.getResult(), rc))));
+                } else {
+                    shapedVanillaRecipes.get(key).add(new Pair<>(sr.getResult(), rc));
+                }
+
+            } else if (r instanceof ShapelessRecipe) {
+                ShapelessRecipe slr = (ShapelessRecipe) r;
+                ItemStack key = new ItemStack(slr.getResult().getType(), 1);
+
+                // Key has a list of recipe options
+                if (!shapelessVanillaRecipes.containsKey(key)) {
+                    shapelessVanillaRecipes.put(key,
+                            new ArrayList<>(Collections.singletonList(new Pair<>(slr.getResult(), slr.getChoiceList()))));
+                } else {
+                    shapelessVanillaRecipes.get(key).add(new Pair<>(slr.getResult(), slr.getChoiceList()));
+                }
+            }
         }
 
-        /*
-         * 1. Creating a new Category
-         * This Category will use the following ItemStack
-         */
-        ItemStack itemGroupItem = new CustomItemStack(Material.COCOA, "&4Addon Category", "", "&a> Click to open");
-
-        // Give your Category a unique id.
-        NamespacedKey itemGroupId = new NamespacedKey(this, "addon_category");
-        ItemGroup itemGroup = new ItemGroup(itemGroupId, itemGroupItem);
-
-        /*
-         * 2. Create a new SlimefunItemStack
-         * This class has many constructors, it is very important
-         * that you give each item a unique id.
-         */
-        SlimefunItemStack slimefunItem = new SlimefunItemStack("COOL_DIAMOND", Material.DIAMOND, "&4Cool Diamond", "&c+20% Coolness");
-
-        /*
-         * 3. Creating a Recipe
-         * The Recipe is an ItemStack Array with a length of 9.
-         * It represents a Shaped Recipe in a 3x3 crafting grid.
-         * The machine in which this recipe is crafted in is specified
-         * further down as the RecipeType.
-         */
-        ItemStack[] recipe = { new ItemStack(Material.EMERALD), null, new ItemStack(Material.EMERALD), null, new ItemStack(Material.DIAMOND), null, new ItemStack(Material.EMERALD), null, new ItemStack(Material.EMERALD) };
-
-        /*
-         * 4. Registering the Item
-         * Now you just have to register the item.
-         * RecipeType.ENHANCED_CRAFTING_TABLE refers to the machine in
-         * which this item is crafted in.
-         * Recipe Types from Slimefun itself will automatically add the recipe to that machine.
-         */
-        SlimefunItem item = new SlimefunItem(itemGroup, slimefunItem, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
-        item.register(this);
+        // Registering Items
+        NEAItemSetup.setup(this);
     }
 
     @Override
@@ -67,18 +99,93 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     }
 
     @Override
-    public String getBugTrackerURL() {
-        // You can return a link to your Bug Tracker instead of null here
-        return null;
+    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command cmd, @Nonnull String label, String[] args) {
+
+        if (args.length == 0) {
+            Utils.send(sender, "&cInvalid command");
+            return true;
+        }
+
+        if (!(sender instanceof Player)) {
+            Utils.send(sender, "&cThere are no console commands available");
+            return true;
+        }
+
+        Player p = (Player) sender;
+
+        switch (args[0].toUpperCase()) {
+            case "META":
+                Utils.send(p, String.valueOf(p.getInventory().getItemInMainHand().getItemMeta()));
+                return true;
+            case "RAWMETA":
+                p.sendMessage(String.valueOf(p.getInventory().getItemInMainHand().getItemMeta()).replace("§", "&"));
+                return true;
+            case "VERSION":
+            case "V":
+                Utils.send(p, "&eThe current version is " + this.getPluginVersion());
+                return true;
+        }
+
+        if (p.hasPermission("notenoughaddons.admin")) {
+            switch (args[0].toUpperCase()) {
+                case "ADDINFO":
+
+                    if (args.length != 3) {
+                        Utils.send(p, "&cPlease specify the key and the data");
+
+                    } else {
+                        RayTraceResult rayResult = p.rayTraceBlocks(5d);
+                        if (rayResult != null && rayResult.getHitBlock() != null
+                                && BlockStorage.hasBlockInfo(rayResult.getHitBlock())) {
+
+                            BlockStorage.addBlockInfo(rayResult.getHitBlock(), args[1], args[2]);
+                            Utils.send(p, "&aInfo has been added.");
+
+                        } else {
+                            Utils.send(p, "&cYou must be looking at a Slimefun block");
+                        }
+                    }
+                    return true;
+                case "SAVEPLAYERS":
+                    saveAllPlayers();
+                    return true;
+            }
+        }
+
+        Utils.send(p, "&cCommand not found");
+
+        return false;
+    }
+
+    private void saveAllPlayers() {
+        Iterator<PlayerProfile> iterator = PlayerProfile.iterator();
+        int players = 0;
+
+        while (iterator.hasNext()) {
+            PlayerProfile profile = iterator.next();
+
+            profile.save();
+            players++;
+        }
+
+        if (players > 0) {
+            Bukkit.getLogger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
+        }
     }
 
     @Override
+    public String getBugTrackerURL() {
+        return "https://github.com/Fhoz/NotEnoughAddons/issues";
+    }
+
+    @Nonnull
+    @Override
     public JavaPlugin getJavaPlugin() {
-        /*
-         * You will need to return a reference to your Plugin here.
-         * If you are using your main class for this, simply return "this".
-         */
         return this;
+    }
+
+    public static NotEnoughAddons getInstance() {
+        return instance;
     }
 
 }
