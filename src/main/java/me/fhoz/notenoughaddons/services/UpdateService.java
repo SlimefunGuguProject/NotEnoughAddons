@@ -104,17 +104,17 @@ public class UpdateService {
             Method start = neaClass.getDeclaredMethod("start");
             String version = neaClass.getPackage().getImplementationVersion();
 
-            // This is required to be sync due to bStats.
-            Slimefun.runSync(() -> {
-                try {
-                    start.invoke(null);
-                    plugin.getLogger().info("NotEnoughAddons build #" + version + " started.");
-                } catch (InvocationTargetException e) {
-                    plugin.getLogger().log(Level.WARNING, "An exception was thrown while starting NotEnoughAddons", e.getCause());
-                } catch (Exception | LinkageError e) {
-                    plugin.getLogger().log(Level.WARNING, "Failed to start NotEnoughAddons.", e);
-                }
-            });
+            // // This is required to be sync due to bStats.
+            // Slimefun.runSync(() -> {
+            //     try {
+            //         start.invoke(null);
+            //         plugin.getLogger().info("NotEnoughAddons build #" + version + " started.");
+            //     } catch (InvocationTargetException e) {
+            //         plugin.getLogger().log(Level.WARNING, "An exception was thrown while starting NotEnoughAddons", e.getCause());
+            //     } catch (Exception | LinkageError e) {
+            //         plugin.getLogger().log(Level.WARNING, "Failed to start NotEnoughAddons.", e);
+            //     }
+            // });
         } catch (Exception | LinkageError e) {
             plugin.getLogger().log(Level.WARNING, "Failed to load NotEnoughAddons. Maybe the jar is corrupt?", e);
         }
