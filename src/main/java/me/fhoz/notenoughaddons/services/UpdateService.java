@@ -62,7 +62,7 @@ public class UpdateService {
         
         this.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
         Path path = Paths.get(notEnoughAddonsFile.toURI());
-        this.pathString = path.getParent().toString();
+        this.pathString = path.getParent().toString() + "/plugins";
     }
 
      /**
