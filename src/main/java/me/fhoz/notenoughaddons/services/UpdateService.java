@@ -63,6 +63,7 @@ public class UpdateService {
         this.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
         Path path = Paths.get(notEnoughAddonsFile.toURI());
         this.pathString = path.getParent().toString() + "/plugins";
+        plugin.getLogger().info(pathString);
     }
 
      /**
@@ -84,7 +85,7 @@ public class UpdateService {
              * PluginClassLoader as a parent.
              */
             neaClassLoader = URLClassLoader.newInstance(new URL[] { notEnoughAddonsFile.toURI().toURL() }, plugin.getClass().getClassLoader());
-            Class<?> neaClass = neaClassLoader.loadClass("me.fhoz.notenoughaddons.NotEnoughAddons");
+            Class<?> neaClass = neaClassLoader.loadClass("me.fhoz.notenoughaddons.services.UpdateService");
 
             neaVersion = neaClass.getPackage().getImplementationVersion();
 
