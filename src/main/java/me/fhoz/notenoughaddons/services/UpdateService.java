@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,6 +29,8 @@ import me.fhoz.notenoughaddons.NotEnoughAddons;
 // Edit from the MetricService.java file on the Slimefun4 repo, original @author WalshyDev
 
 public class UpdateService {
+
+    
     private static final String API_URL = "https://api.github.com/";
     private static final String REPO_NAME = "NotEnoughAddons";
     private static final String JAR_NAME = "NotEnoughAddons";
@@ -54,13 +57,15 @@ public class UpdateService {
 
     public UpdateService(@Nonnull NotEnoughAddons plugin) {
         this.plugin = plugin;
-        this.parentFolder = new File(NotEnoughAddons.getParent());
+        this.parentFolder = NotEnoughAddons.getParent();
 
         if (!parentFolder.exists()) {
             parentFolder.mkdirs();
         }
 
-        this.notEnoughAddonsFile = new File(parentFolder, JAR_NAME + ".jar");
+        
+        this.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
+        Path path = Paths.get(notEnoughAddonsFile.toURI());
     }
 
      /**
