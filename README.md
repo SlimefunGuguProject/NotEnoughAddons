@@ -1,6 +1,6 @@
 # Slimefun4 Addon
-This is an example Repository for a generic Slimefun4 Addon.
-In the top left is a button "Use this template", click this to create your own Addon for Slimefun4 using this basic template.
+This is an addon for Slimefun4
+
 
 ## How to create your own addon.
 This is a template repository that you can use to create your own Slimefun4 Addon.<br>
