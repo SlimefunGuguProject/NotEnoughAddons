@@ -196,7 +196,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         return instance;
     }
 
-    public static @Nonnull UpdateService getMetricsService() {
+    public static @Nonnull UpdateService getUpdateService() {
         return instance.updateService;
     }
 }
