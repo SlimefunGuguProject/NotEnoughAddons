@@ -9,6 +9,7 @@ import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 
 /**
  * Specifies all plugin items
@@ -36,4 +37,15 @@ public class NEAItems {
         "&7Very useful for building something in the sky",
         LoreBuilder.RIGHT_CLICK_TO_USE
     );
+
+    public static final SlimefunItemStack BOOST_JUMP = new SlimefunItemStack("BOOST_JUMP", 
+        Material.RABBIT_FOOT,
+        "&6Jump Boost",
+        "&7Launches you in the air, then gets consumed",
+        LoreBuilder.RIGHT_CLICK_TO_USE
+    );
+
+    static {
+        BOOST_JUMP.addUnsafeEnchantment(Enchantment.QUICK_CHARGE, 1);
+    }
 }

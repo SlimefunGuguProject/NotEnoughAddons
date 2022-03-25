@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import lombok.SneakyThrows;
+import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.utils.Constants;
 import me.fhoz.notenoughaddons.utils.Utils;
@@ -92,11 +93,14 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
         // Registering Items
         NEAItemSetup.setup(this);
+
+        BoostJump.onEnable();
     }
 
     @Override
     public void onDisable() {
         AngelBlock.onDisable();
+        BoostJump.onDisable();
     }
 
     @Override
