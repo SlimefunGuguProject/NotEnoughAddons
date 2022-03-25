@@ -25,6 +25,8 @@ import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 import me.fhoz.notenoughaddons.NotEnoughAddons;
 
+// Edit from the MetricService.java file on the Slimefun4 repo, original @author WalshyDev
+
 public class UpdateService {
     private static final String API_URL = "https://api.github.com/";
     private static final String REPO_NAME = "NotEnoughAddons";
