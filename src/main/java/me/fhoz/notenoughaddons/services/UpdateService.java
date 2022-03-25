@@ -82,7 +82,7 @@ public class UpdateService {
              * PluginClassLoader as a parent.
              */
             neaClassLoader = URLClassLoader.newInstance(new URL[] { notEnoughAddonsFile.toURI().toURL() }, plugin.getClass().getClassLoader());
-            Class<?> neaClass = neaClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
+            Class<?> neaClass = neaClassLoader.loadClass("me.fhoz.notenoughaddons.UpdateService");
 
             neaVersion = neaClass.getPackage().getImplementationVersion();
 
