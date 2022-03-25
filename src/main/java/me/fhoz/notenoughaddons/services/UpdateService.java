@@ -54,7 +54,7 @@ public class UpdateService {
 
     public UpdateService(@Nonnull NotEnoughAddons plugin) {
         this.plugin = plugin;
-        this.parentFolder = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "neaupdate");
+        this.parentFolder = new File(NotEnoughAddons.getParent());
 
         if (!parentFolder.exists()) {
             parentFolder.mkdirs();

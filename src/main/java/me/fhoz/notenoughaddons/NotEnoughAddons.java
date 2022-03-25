@@ -1,5 +1,6 @@
 package me.fhoz.notenoughaddons;
 
+import java.io.File;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -199,5 +200,9 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     public static @Nonnull UpdateService getUpdateService() {
         return instance.updateService;
+    }
+
+    public static String getParent() {
+        return NotEnoughAddons.getParent();
     }
 }
