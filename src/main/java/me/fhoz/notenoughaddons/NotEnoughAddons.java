@@ -19,6 +19,7 @@ import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.utils.Constants;
 import me.fhoz.notenoughaddons.utils.Utils;
+import me.fhoz.notenoughaddons.services.UpdateService;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -41,7 +42,9 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     public static final HashMap<ItemStack, List<Pair<ItemStack, List<RecipeChoice>>>> shapedVanillaRecipes = new HashMap<>();
     public static final HashMap<ItemStack, List<Pair<ItemStack, List<RecipeChoice>>>> shapelessVanillaRecipes =
             new HashMap<>();
-
+    
+    private final UpdateService updateService = new UpdateService(this);
+    
     @SneakyThrows
     @Override
     public void onEnable() {
@@ -193,4 +196,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         return instance;
     }
 
+    public static @Nonnull UpdateService getMetricsService() {
+        return instance.updateService;
+    }
 }
