@@ -38,7 +38,7 @@ public class UpdateService {
     private static final String RELEASES_URL = API_URL + "repos/Fhoz/" + REPO_NAME + "/releases/latest";
     private static final String DOWNLOAD_URL = "https://github.com/Fhoz/" + REPO_NAME + "/releases/download";
     private final NotEnoughAddons plugin;
-    private final File notEnoughAddonsFile;
+    private File notEnoughAddonsFile;
     private final String pathString;
 
     private URLClassLoader neaClassLoader;
@@ -64,6 +64,7 @@ public class UpdateService {
         Path path = Paths.get(notEnoughAddonsFile.toURI());
         this.pathString = path.getParent().toString() + "\\plugins";
         plugin.getLogger().info(pathString);
+        this.notEnoughAddonsFile = new File(pathString, JAR_NAME + ".jar");
     }
 
      /**
