@@ -51,7 +51,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         instance = this;
         // Read something from your config.yml
         Config cfg = new Config(this);
-
+        new Thread(updateService::start, "NotEnoughAddons").start();
         //if (cfg.getBoolean("options.auto-update")) {
         //    new GitHubBuildsUpdater(this, getFile(), "Fhoz/GlobiaMachines/master").start();
         //}
@@ -104,6 +104,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     public void onDisable() {
         AngelBlock.onDisable();
         BoostJump.onDisable();
+        updateService.cleanUp();
     }
 
     @Override
