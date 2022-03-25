@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.*;
+import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -37,8 +38,8 @@ public class UpdateService {
     private static final String RELEASES_URL = API_URL + "repos/Fhoz/" + REPO_NAME + "/releases/latest";
     private static final String DOWNLOAD_URL = "https://github.com/Fhoz/" + REPO_NAME + "/releases/download";
     private final NotEnoughAddons plugin;
-    private final File parentFolder;
     private final File notEnoughAddonsFile;
+    private final String pathString;
 
     private URLClassLoader neaClassLoader;
     private String neaVersion = null;
@@ -57,15 +58,11 @@ public class UpdateService {
 
     public UpdateService(@Nonnull NotEnoughAddons plugin) {
         this.plugin = plugin;
-        this.parentFolder = NotEnoughAddons.getParent();
-
-        if (!parentFolder.exists()) {
-            parentFolder.mkdirs();
-        }
 
         
         this.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
         Path path = Paths.get(notEnoughAddonsFile.toURI());
+        this.pathString = path.getParent().toString();
     }
 
      /**
@@ -194,7 +191,7 @@ public class UpdateService {
      *            The version to download.
      */
     private boolean download(int version) {
-        File file = new File(parentFolder, "NotEnoughAddons-" + version + ".jar");
+        File file = new File(pathString, "NotEnoughAddons-" + version + ".jar");
 
         try {
             plugin.getLogger().log(Level.INFO, "# Starting download of NotEnoughAddons build: #{0}", version);

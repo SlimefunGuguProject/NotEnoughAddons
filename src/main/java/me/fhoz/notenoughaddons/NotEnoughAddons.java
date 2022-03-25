@@ -201,8 +201,4 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull UpdateService getUpdateService() {
         return instance.updateService;
     }
-
-    public static File getParent() {
-        return NotEnoughAddons.getParent();
-    }
 }
