@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.fhoz</groupId>
     <artifactId>NotEnoughAddons</artifactId>
-    <version>17</version>
+    <version>18</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

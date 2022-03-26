@@ -258,7 +258,7 @@ public class UpdateService {
 
     public static void replaceExisting() {
         try {
-            Files.delete(Paths.get(pathString + notEnoughAddonsFile));
+            Files.delete(Paths.get(notEnoughAddonsFile.toURI()));
             Files.move(Paths.get(pathString + "\\NEAUpdate"), Paths.get(pathString), StandardCopyOption.REPLACE_EXISTING);
 
         } catch (IOException e) {
