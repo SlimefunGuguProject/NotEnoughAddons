@@ -96,11 +96,11 @@ public class UpdateService {
              * If it has not been newly downloaded, auto-updates are enabled
              * AND there's a new version then cleanup, download and start
              */
-            // if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(neaVersion)) {
-            //     plugin.getLogger().info("Cleaned up, now re-loading NotEnoughAddons!");
-            //     start();
-            //     return;
-            // }
+            if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(neaVersion)) {
+                plugin.getLogger().info("Cleaned up, now re-loading NotEnoughAddons!");
+                start();
+                return;
+            }
 
             // Finally, we're good to start this.
             // Method start = neaClass.getDeclaredMethod("start");
