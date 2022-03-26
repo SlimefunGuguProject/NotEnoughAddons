@@ -90,6 +90,7 @@ public class UpdateService {
             Class<?> neaClass = neaClassLoader.loadClass("me.fhoz.notenoughaddons.NotEnoughAddons");
 
             neaVersion = neaClass.getPackage().getImplementationVersion();
+            plugin.getLogger().log(Level.SEVERE, neaVersion);
 
             /*
              * If it has not been newly downloaded, auto-updates are enabled
