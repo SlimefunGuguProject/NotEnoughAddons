@@ -86,11 +86,11 @@ public class UpdateService {
              * Load the jar file into a child class loader using the Slimefun
              * PluginClassLoader as a parent.
              */
-            neaClassLoader = URLClassLoader.newInstance(new URL[] { notEnoughAddonsFile.toURI().toURL() }, plugin.getClass().getClassLoader());
-            Class<?> neaClass = neaClassLoader.loadClass("me.fhoz.notenoughaddons.NotEnoughAddons");
+            // neaClassLoader = URLClassLoader.newInstance(new URL[] { notEnoughAddonsFile.toURI().toURL() }, plugin.getClass().getClassLoader());
+            // // plugin.getLogger().log(Level.SEVERE)
+            // Class<?> neaClass = neaClassLoader.loadClass("me.fhoz.notenoughaddons.NotEnoughAddons");
 
-            neaVersion = neaClass.getPackage().getImplementationVersion();
-            plugin.getLogger().log(Level.SEVERE, neaVersion);
+            neaVersion = plugin.getDescription().getVersion();
 
             /*
              * If it has not been newly downloaded, auto-updates are enabled
