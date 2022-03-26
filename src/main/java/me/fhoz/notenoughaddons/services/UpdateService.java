@@ -37,9 +37,9 @@ public class UpdateService {
     private static final String JAR_NAME = "NotEnoughAddons";
     private static final String RELEASES_URL = API_URL + "repos/Fhoz/" + REPO_NAME + "/releases/latest";
     private static final String DOWNLOAD_URL = "https://github.com/Fhoz/" + REPO_NAME + "/releases/download";
-    private final NotEnoughAddons plugin;
+    private static NotEnoughAddons plugin;
     private File notEnoughAddonsFile;
-    private final String pathString;
+    private static String pathString;
 
     private URLClassLoader neaClassLoader;
     private String neaVersion = null;
@@ -57,12 +57,12 @@ public class UpdateService {
     }
 
     public UpdateService(@Nonnull NotEnoughAddons plugin) {
-        this.plugin = plugin;
+        UpdateService.plugin = plugin;
 
         
         this.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
         Path path = Paths.get(notEnoughAddonsFile.toURI());
-        this.pathString = path.getParent().toString() + "\\plugins";
+        UpdateService.pathString = path.getParent().toString() + "\\plugins";
         plugin.getLogger().info(pathString);
         this.notEnoughAddonsFile = new File(pathString, JAR_NAME + ".jar");
     }
@@ -193,7 +193,7 @@ public class UpdateService {
      *            The version to download.
      */
     private boolean download(int version) {
-        File file = new File(pathString, "NotEnoughAddons-" + version + ".jar");
+        File file = new File(pathString + "\\NEAUpdate", "NotEnoughAddons-" + version + ".jar");
 
         try {
             plugin.getLogger().log(Level.INFO, "# Starting download of NotEnoughAddons build: #{0}", version);
@@ -254,5 +254,14 @@ public class UpdateService {
      */
     public boolean hasAutoUpdates() {
         return NotEnoughAddons.getInstance().getConfig().getBoolean("options.auto-update");
+    }
+
+    public static void replaceExisting() {
+        try {
+            Files.move(Paths.get(pathString + "\\NEAUpdate"), Paths.get(pathString), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.WARNING, "Failed to replace the old NotEnoughAddons file with the new one. Please do this manually! Error: {0}", e.getMessage());
+        }
+        
     }
 }

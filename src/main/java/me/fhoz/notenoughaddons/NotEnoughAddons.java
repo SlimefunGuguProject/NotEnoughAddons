@@ -51,6 +51,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         instance = this;
+        UpdateService.replaceExisting();
         // Read something from your config.yml
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
@@ -104,6 +105,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onDisable() {
+        UpdateService.replaceExisting();
         AngelBlock.onDisable();
         BoostJump.onDisable();
         updateService.cleanUp();
