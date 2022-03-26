@@ -102,8 +102,8 @@ public class UpdateService {
             // }
 
             // Finally, we're good to start this.
-            Method start = neaClass.getDeclaredMethod("start");
-            String version = neaClass.getPackage().getImplementationVersion();
+            // Method start = neaClass.getDeclaredMethod("start");
+            // String version = neaClass.getPackage().getImplementationVersion();
 
             // // This is required to be sync due to bStats.
             // Slimefun.runSync(() -> {
