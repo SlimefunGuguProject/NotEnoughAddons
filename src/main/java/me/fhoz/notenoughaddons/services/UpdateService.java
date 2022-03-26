@@ -220,7 +220,6 @@ public class UpdateService {
 
                 // Replace the NotEnoughAddons file with the new one
                 cleanUp();
-                Files.move(file.toPath(), notEnoughAddonsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 neaVersion = String.valueOf(version);
                 hasDownloadedUpdate = true;
