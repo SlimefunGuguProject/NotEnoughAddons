@@ -1,5 +1,6 @@
 package me.fhoz.notenoughaddons.services;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
+import java.util.regex.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,7 +32,6 @@ import me.fhoz.notenoughaddons.NotEnoughAddons;
 // Edit from the MetricService.java file on the Slimefun4 repo, original @author WalshyDev
 
 public class UpdateService {
-
     
     private static final String API_URL = "https://api.github.com/";
     private static final String REPO_NAME = "NotEnoughAddons";
@@ -38,7 +39,7 @@ public class UpdateService {
     private static final String RELEASES_URL = API_URL + "repos/Fhoz/" + REPO_NAME + "/releases/latest";
     private static final String DOWNLOAD_URL = "https://github.com/Fhoz/" + REPO_NAME + "/releases/download";
     private static NotEnoughAddons plugin;
-    private File notEnoughAddonsFile;
+    private static File notEnoughAddonsFile;
     private static String pathString;
 
     private URLClassLoader neaClassLoader;
@@ -60,11 +61,11 @@ public class UpdateService {
         UpdateService.plugin = plugin;
 
         
-        this.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
+        UpdateService.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
         Path path = Paths.get(notEnoughAddonsFile.toURI());
         UpdateService.pathString = path.getParent().toString() + "\\plugins";
         plugin.getLogger().info(pathString);
-        this.notEnoughAddonsFile = new File(pathString, JAR_NAME + ".jar");
+        UpdateService.notEnoughAddonsFile = new File(pathString, JAR_NAME + ".jar");
     }
 
      /**
@@ -257,10 +258,13 @@ public class UpdateService {
 
     public static void replaceExisting() {
         try {
+            Files.delete(Paths.get(pathString + notEnoughAddonsFile));
             Files.move(Paths.get(pathString + "\\NEAUpdate"), Paths.get(pathString), StandardCopyOption.REPLACE_EXISTING);
+
         } catch (IOException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to replace the old NotEnoughAddons file with the new one. Please do this manually! Error: {0}", e.getMessage());
         }
         
     }
+
 }
