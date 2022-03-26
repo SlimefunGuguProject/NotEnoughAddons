@@ -95,11 +95,11 @@ public class UpdateService {
              * If it has not been newly downloaded, auto-updates are enabled
              * AND there's a new version then cleanup, download and start
              */
-            if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(neaVersion)) {
-                plugin.getLogger().info("Cleaned up, now re-loading NotEnoughAddons!");
-                start();
-                return;
-            }
+            // if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(neaVersion)) {
+            //     plugin.getLogger().info("Cleaned up, now re-loading NotEnoughAddons!");
+            //     start();
+            //     return;
+            // }
 
             // Finally, we're good to start this.
             Method start = neaClass.getDeclaredMethod("start");
@@ -194,7 +194,13 @@ public class UpdateService {
      *            The version to download.
      */
     private boolean download(int version) {
-        File file = new File(pathString + "\\NEAUpdate", "NotEnoughAddons-" + version + ".jar");
+        File file;
+        if (!notEnoughAddonsFile.exists()) {
+            file = new File(pathString, "NotEnoughAddons.jar");
+        }
+        else {
+            file = new File(pathString + "\\update", "NotEnoughAddons.jar");
+        }
 
         try {
             plugin.getLogger().log(Level.INFO, "# Starting download of NotEnoughAddons build: #{0}", version);
@@ -218,6 +224,7 @@ public class UpdateService {
 
             if (response.isSuccess()) {
                 plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
+                plugin.getLogger().log(Level.SEVERE, "The addon will be updated when the server is restarted!");
 
                 // Replace the NotEnoughAddons file with the new one
                 cleanUp();
@@ -255,16 +262,4 @@ public class UpdateService {
     public boolean hasAutoUpdates() {
         return NotEnoughAddons.getInstance().getConfig().getBoolean("options.auto-update");
     }
-
-    public static void replaceExisting() {
-        try {
-            Files.delete(Paths.get(notEnoughAddonsFile.toURI()));
-            Files.move(Paths.get(pathString + "\\NEAUpdate"), Paths.get(pathString), StandardCopyOption.REPLACE_EXISTING);
-
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to replace the old NotEnoughAddons file with the new one. Please do this manually! Error: {0}", e.getMessage());
-        }
-        
-    }
-
 }

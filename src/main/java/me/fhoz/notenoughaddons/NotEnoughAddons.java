@@ -101,12 +101,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
         BoostJump.onEnable();
     }
-
-    @Override
-    public void onLoad() {
-        UpdateService.replaceExisting();
-    }
-
+    
     @Override
     public void onDisable() {
         AngelBlock.onDisable();
