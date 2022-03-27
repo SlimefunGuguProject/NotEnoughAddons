@@ -23,3 +23,13 @@ api-version: 1.14
 ## This is required and marks Slimefun as a plugin dependency.
 depend:
 - Slimefun
+
+commands:
+  notenoughaddons:
+    description: NotEnoughAddons Command
+    usage: /<command>
+    aliases: [nea]
+
+permissions:
+  notenoughaddons.admin:
+    description: Allows you to use NotEnoughAddons admin commands

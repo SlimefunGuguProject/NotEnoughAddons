@@ -64,11 +64,11 @@ public final class NEAItemSetup {
 
 
         // Boosts
-        new BoostJump(boosts, NEAItems.BOOST_JUMP,
-            RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
-                new ItemStack(Material.LILY_PAD), new ItemStack(Material.FEATHER), new ItemStack(Material.RABBIT),
-                null, null, null,
-                null, null, null
-        }).register(plugin);
+        // new BoostJump(boosts, NEAItems.BOOST_JUMP,
+        //     RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
+        //         new ItemStack(Material.LILY_PAD), new ItemStack(Material.FEATHER), new ItemStack(Material.RABBIT),
+        //         null, null, null,
+        //         null, null, null
+        // }).register(plugin);
     }
 }

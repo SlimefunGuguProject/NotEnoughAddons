@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.fhoz</groupId>
     <artifactId>NotEnoughAddons</artifactId>
-    <version>24</version>
+    <version>25</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -31,7 +31,7 @@
     </repositories>
 
     <build>
-        <finalName>${project.name}-${project.version}</finalName>
+        <finalName>${project.name}</finalName>
         <defaultGoal>clean package</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
 

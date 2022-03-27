@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.*;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
-import java.util.regex.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,9 +40,8 @@ public class UpdateService {
     private static File notEnoughAddonsFile;
     private static String pathString;
 
-    private URLClassLoader neaClassLoader;
-    private String neaVersion = null;
-    private boolean hasDownloadedUpdate = false;
+    private static String neaVersion = null;
+    private static boolean hasDownloadedUpdate = false;
 
     static {
         // @formatter:off (We want this to stay this nicely aligned :D )
@@ -64,7 +61,6 @@ public class UpdateService {
         UpdateService.notEnoughAddonsFile = new File(JAR_NAME + ".jar");
         Path path = Paths.get(notEnoughAddonsFile.toURI());
         UpdateService.pathString = path.getParent().toString() + "\\plugins";
-        plugin.getLogger().info(pathString);
         UpdateService.notEnoughAddonsFile = new File(pathString, JAR_NAME + ".jar");
     }
 
@@ -76,20 +72,13 @@ public class UpdateService {
             plugin.getLogger().info(JAR_NAME + " does not exist, downloading...");
 
             if (!download(getLatestVersion())) {
-                plugin.getLogger().warning("Failed to start metrics as the file could not be downloaded.");
+                plugin.getLogger().warning("Failed to download NotEnoughAddons as the file could not be downloaded.");
                 return;
             }
         }
-    
-        try {
-            /*
-             * Load the jar file into a child class loader using the Slimefun
-             * PluginClassLoader as a parent.
-             */
-            // neaClassLoader = URLClassLoader.newInstance(new URL[] { notEnoughAddonsFile.toURI().toURL() }, plugin.getClass().getClassLoader());
-            // // plugin.getLogger().log(Level.SEVERE)
-            // Class<?> neaClass = neaClassLoader.loadClass("me.fhoz.notenoughaddons.NotEnoughAddons");
 
+        try {
+            // Get the version of the current NotEnoughAddons.jar
             neaVersion = plugin.getDescription().getVersion();
 
             /*
@@ -101,38 +90,8 @@ public class UpdateService {
                 start();
                 return;
             }
-
-            // Finally, we're good to start this.
-            // Method start = neaClass.getDeclaredMethod("start");
-            // String version = neaClass.getPackage().getImplementationVersion();
-
-            // // This is required to be sync due to bStats.
-            // Slimefun.runSync(() -> {
-            //     try {
-            //         start.invoke(null);
-            //         plugin.getLogger().info("NotEnoughAddons build #" + version + " started.");
-            //     } catch (InvocationTargetException e) {
-            //         plugin.getLogger().log(Level.WARNING, "An exception was thrown while starting NotEnoughAddons", e.getCause());
-            //     } catch (Exception | LinkageError e) {
-            //         plugin.getLogger().log(Level.WARNING, "Failed to start NotEnoughAddons.", e);
-            //     }
-            // });
         } catch (Exception | LinkageError e) {
             plugin.getLogger().log(Level.WARNING, "Failed to load NotEnoughAddons. Maybe the jar is corrupt?", e);
-        }
-    }
-
-    /**
-     * This will close the child {@link ClassLoader} and mark all the resources held under this no longer
-     * in use, they will be cleaned up the next GC run.
-     */
-    public void cleanUp() {
-        try {
-            if (neaClassLoader != null) {
-                neaClassLoader.close();
-            }
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Could not clean up module class loader. Some memory may have been leaked.");
         }
     }
 
@@ -145,7 +104,7 @@ public class UpdateService {
      * 
      * @return if there is an update available.
      */
-    public boolean checkForUpdate(@Nullable String currentVersion) {
+    public static boolean checkForUpdate(@Nullable String currentVersion) {
         if (currentVersion == null || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {
             return false;
         }
@@ -159,6 +118,7 @@ public class UpdateService {
         return false;
     }
 
+
      /**
      * Gets the latest version available as an int.
      * This is an internal method used by {@link #checkForUpdate(String)}.
@@ -167,7 +127,7 @@ public class UpdateService {
      *
      * @return The latest version as an integer or -1 if it failed to fetch.
      */
-    private int getLatestVersion() {
+    public static int getLatestVersion() {
         try {
             HttpResponse<JsonNode> response = Unirest.get(RELEASES_URL).asJson();
 
@@ -189,12 +149,12 @@ public class UpdateService {
     }
 
     /**
-     * Downloads the version specified to Slimefun's data folder.
+     * Downloads the version specified to Bukkits's update folder.
      *
      * @param version
      *            The version to download.
      */
-    private boolean download(int version) {
+    private static boolean download(int version) {
         File file;
         if (!notEnoughAddonsFile.exists()) {
             file = new File(pathString, "NotEnoughAddons.jar");
@@ -225,10 +185,7 @@ public class UpdateService {
 
             if (response.isSuccess()) {
                 plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
-                plugin.getLogger().log(Level.SEVERE, "The addon will be updated when the server is restarted!");
-
-                // Replace the NotEnoughAddons file with the new one
-                cleanUp();
+                plugin.getLogger().log(Level.WARNING, "The addon will be updated when the server is restarted!");
 
                 neaVersion = String.valueOf(version);
                 hasDownloadedUpdate = true;
@@ -256,7 +213,7 @@ public class UpdateService {
     }
 
      /**
-     * Returns if the current server has metrics auto-updates enabled.
+     * Returns if the current server has NotEnoughAddons auto-updates enabled.
      *
      * @return True if the current server has metrics auto-updates enabled.
      */

