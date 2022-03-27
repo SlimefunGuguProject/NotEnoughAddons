@@ -6,7 +6,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
-import me.fhoz.notenoughaddons.items.AngelBlock;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

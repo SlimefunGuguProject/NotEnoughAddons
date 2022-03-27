@@ -12,7 +12,6 @@ import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.utils.NEAItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 import javax.annotation.Nonnull;
 import org.bukkit.Material;

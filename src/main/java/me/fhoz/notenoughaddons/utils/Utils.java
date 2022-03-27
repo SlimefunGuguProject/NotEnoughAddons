@@ -25,11 +25,9 @@ import javax.annotation.Nullable;
 import javax.crypto.Cipher;  
 
 import java.io.ByteArrayInputStream;
-import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.logging.Level;
 
 public final class Utils {
     static Cipher cipher;
