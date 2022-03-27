@@ -63,7 +63,7 @@ public class NEAItems {
     );
 
     public static final SlimefunItemStack ENERGIZED_LEFT_GLOOB = new SlimefunItemStack("ENERGIZED_LEFT_GLOOB",
-        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI4MjRkNDY5YzkzZTQ1NGEwYjIzZDJmMGM0MmZkNmNhNTRhOGI1NGU2OTBlYzkwNTljYzllNWEzZTZkOWY5MCJ9fX0=",
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWIwYTA2MjlhNzRhMjBjZjQxOWMxYTEyZmNhNDlmODcyYjc4NTI0YmIyNWRkOGI5ZDc0YzFkMjZlN2IwOTI2OCJ9fX0=",
         "&aEnergized Left Gloob",
         "&7Not to be confused with &9Energized Right Gloob",
         "&7When gloobs get combined.."
@@ -99,7 +99,7 @@ public class NEAItems {
 
     public static final SlimefunItemStack FLYING_BUBBLE = new SlimefunItemStack("FLYING_BUBBLE",
         Material.CRYING_OBSIDIAN,
-        "&6Antigravity Bubble",
+        "&6Flying Bubble",
         "",
         "&f Creative Flight within an 45 block area",
         "",

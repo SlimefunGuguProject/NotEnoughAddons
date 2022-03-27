@@ -10,11 +10,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import lombok.SneakyThrows;
 import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.items.AngelBlock;
+import me.fhoz.notenoughaddons.listeners.FlyingBubbleListener;
 import me.fhoz.notenoughaddons.utils.Utils;
 import me.fhoz.notenoughaddons.services.UpdateService;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -38,6 +42,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
             new HashMap<>();
     
     private final UpdateService updateService = new UpdateService(this);
+    private final FlyingBubbleListener flyingBubbleListener = new FlyingBubbleListener();
     
     @SneakyThrows
     @Override
@@ -46,6 +51,9 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         // Read something from your config.yml
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
+        ScheduledExecutorService executorService;
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(flyingBubbleListener::run, 0, 1, TimeUnit.SECONDS);
         
         // Register ACT Recipes
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
