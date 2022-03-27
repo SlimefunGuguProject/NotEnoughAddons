@@ -127,7 +127,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
             case "RAWMETA":
                 p.sendMessage(String.valueOf(p.getInventory().getItemInMainHand().getItemMeta()).replace("§", "&"));
                 return true;
-            case "GETLATEST":
             case "VERSION":
             case "V":
                 Utils.send(p, "&eThe current version is " + this.getPluginVersion());
@@ -161,8 +160,15 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
                     Utils.send(p, "&eThe latest version is " + UpdateService.getLatestVersion());
                     return true;
                 case "DOWNLOAD":
-                    UpdateService.checkForUpdate(this.getPluginVersion());
-                    Utils.send(p, "&eSuccessfully downloaded {0} build: #{1}" + new Object[] { "NotEnoughAddons", UpdateService.getLatestVersion()});
+                    if (UpdateService.getLatestVersion() <= Integer.parseInt(this.getPluginVersion())) {
+                        Utils.send(p, "&eFailed to download NotEnoughAddons build: #" + UpdateService.getLatestVersion());
+                        Utils.send(p, "&ePerhaps its already up to date?");
+                    } else if (UpdateService.checkForUpdate(this.getPluginVersion())) {
+                        Utils.send(p, "&eSuccessfully downloaded NotEnoughAddons build: #" + UpdateService.getLatestVersion());
+                    } else {
+                        Utils.send(p, "&eFailed to download NotEnoughAddons build: #" + UpdateService.getLatestVersion());
+                        Utils.send(p, "&ePerhaps its already up to date?");
+                    }
                     return true;
             }
         }
