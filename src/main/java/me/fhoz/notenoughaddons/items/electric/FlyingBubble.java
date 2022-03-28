@@ -14,8 +14,10 @@ import me.fhoz.notenoughaddons.abstractitems.AMachine;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Flying;
 import org.bukkit.entity.Player;
@@ -31,16 +33,12 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import javax.tools.DocumentationTool.Location;
-
 public class FlyingBubble extends AMachine {
     FlyingBubbleListener flyingBubbleListener = new FlyingBubbleListener();
     public static final int ENERGY_CONSUMPTION = 15;
     
-
     public final Set<UUID> enabledPlayers = new HashSet<>();
     public org.bukkit.Location bubbleLocation;
-
     private static final int[] BORDER = new int[] { 1, 2, 6, 7, 9, 10, 11, 15, 16, 17, 19, 20, 24, 25 };
     private static final int[] BORDER_IN = new int[] { 3, 4, 5, 12, 14, 21, 22, 23 };
     private static final int[] BORDER_OUT = new int[] { 0, 8, 18, 26 };
@@ -56,7 +54,6 @@ public class FlyingBubble extends AMachine {
     @Override
     public void preRegister() {
         addItemHandler(new BlockTicker() {
-
             @Override
             public void tick(Block b, SlimefunItem sfItem, Config data) {
                 
@@ -73,40 +70,64 @@ public class FlyingBubble extends AMachine {
     @Override
     public void tick(Block b) {
         bubbleLocation = b.getLocation();
-        Collection<Entity> bubbledEntities = b.getWorld().getNearbyEntities(b.getLocation(), 25, 25, 25);
+        // Collection<Entity> bubbledEntities = b.getWorld().getNearbyEntities(b.getLocation(), 25, 25, 25);
+        
 
+        // flyingBubbleListener.allEntities(bubbleLocation, bubbledEntities);
+        // for (Entity entity : bubbledEntities) {
+        //     if (entity instanceof Player) {
+        //         Player p = (Player) entity;
+        //         if (!p.getAllowFlight()) {
+        //             enabledPlayers.add(p.getUniqueId());
+        //             // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
+        //             removeCharge(b.getLocation(), getEnergyConsumption());
+        //         }
+        //     }
+        // }
+        // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
+
+        // for (UUID uuid : enabledPlayers) {
+        //     Player p = Bukkit.getPlayer(uuid);
+        //     if (p != null && !bubbledEntities.contains(p)) {
+        //         enabledPlayers.remove(uuid);
+        //     }
+        // }
+        // final Iterator<UUID> playerIterator = enabledPlayers.iterator();
+        // while (playerIterator.hasNext()) {
+        //     final UUID uuid = playerIterator.next();
+        //     Player p = Bukkit.getPlayer(uuid);
+        //     if (p != null && !bubbledEntities.contains(p)) {
+        //         playerIterator.remove();
+        //         // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
+        //     }
+        // }
+    }
+
+    public void run() {
+        Collection<Entity> bubbledEntities = bubbleLocation.getWorld().getNearbyEntities(bubbleLocation, 25, 25, 25);
+        
+
+        flyingBubbleListener.allEntities(bubbleLocation, bubbledEntities);
         for (Entity entity : bubbledEntities) {
             if (entity instanceof Player) {
                 Player p = (Player) entity;
-
                 if (!p.getAllowFlight()) {
                     enabledPlayers.add(p.getUniqueId());
-                    NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, "Enable flight");
-                    flyingBubbleListener.updateValue(bubbleLocation, enabledPlayers);
-
-                    p.setAllowFlight(true);
-                    removeCharge(b.getLocation(), getEnergyConsumption());
+                    // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
+                    removeCharge(bubbleLocation, getEnergyConsumption());
                 }
             }
         }
+        flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
 
-        final Iterator<UUID> playerIterator = enabledPlayers.iterator();
-        while (playerIterator.hasNext()) {
-            final UUID uuid = playerIterator.next();
+        for (UUID uuid : enabledPlayers) {
             Player p = Bukkit.getPlayer(uuid);
-
             if (p != null && !bubbledEntities.contains(p)) {
-                
-                // p.setAllowFlight(false);
-                // p.setFlying(false);
-                // p.setFallDistance(0.0f);
-                NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, "Disable flight");
-                playerIterator.remove();
-                
-                flyingBubbleListener.updateValue(bubbleLocation, enabledPlayers);
+                enabledPlayers.remove(uuid);
             }
         }
     }
+    
 
     private ItemHandler onBlockBreak() {
         return new BlockBreakHandler(false, false) {
@@ -118,12 +139,8 @@ public class FlyingBubble extends AMachine {
                     final UUID uuid = playerIterator.next();
                     Player p = Bukkit.getPlayer(uuid);
                     if (p != null) {
-                        // p.setAllowFlight(false);
-                        // p.setFlying(false);
-                        // p.setFallDistance(0.0F);
-                        NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, "Block broken");
                         playerIterator.remove();
-                        flyingBubbleListener.updateValue(bubbleLocation, enabledPlayers);
+                        // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
                     }
                 }
             }

@@ -18,11 +18,13 @@ import javax.annotation.Nonnull;
 import lombok.SneakyThrows;
 import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.items.AngelBlock;
+import me.fhoz.notenoughaddons.items.electric.FlyingBubble;
 import me.fhoz.notenoughaddons.listeners.FlyingBubbleListener;
 import me.fhoz.notenoughaddons.utils.Utils;
 import me.fhoz.notenoughaddons.services.UpdateService;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,10 +53,22 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         // Read something from your config.yml
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
-        ScheduledExecutorService executorService;
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(flyingBubbleListener::run, 0, 1, TimeUnit.SECONDS);
+        // ScheduledExecutorService executorService;
+        // executorService = Executors.newSingleThreadScheduledExecutor();
+        // executorService.scheduleAtFixedRate(flyingBubbleListener::run, 0, 2, TimeUnit.SECONDS);
         
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(NotEnoughAddons.getInstance(), new Runnable() {
+            public void run() {
+                flyingBubbleListener.run();
+                FlyingBubble.run();
+            }
+        }, 0, 40);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(NotEnoughAddons.getInstance(), new Runnable() {
+            public void run() {
+                
+            }
+        }, 0, 10);
+
         // Register ACT Recipes
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
         while (recipeIterator.hasNext()) {

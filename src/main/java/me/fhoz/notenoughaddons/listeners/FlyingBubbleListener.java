@@ -33,41 +33,95 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 
 public class FlyingBubbleListener {
-    public static Map<Location, Set<UUID>> uuidLogger = new HashMap<Location, Set<UUID>>();
+    public static Map<Location, Set<UUID>> toGiveFlight = new HashMap<Location, Set<UUID>>();
+    // public static Map<Location, Collection<Entity>> toCheckFlight = new HashMap<Location, Collection<Entity>>();
+    Set<UUID> bubbledPlayers = new HashSet<>();
     Set<UUID> allBubbleUuids = new HashSet<>();
+    // Set<UUID> allTracedUuids = new HashSet<>();
+    ArrayList<Player> noFallDamage = new ArrayList<Player>();
     public void run() {
-        
-        for (Map.Entry<Location, Set<UUID>> entry : uuidLogger.entrySet()) {
-            Set<UUID> bubbleUuids = entry.getValue();
-            final Iterator<UUID> playerIterator = bubbleUuids.iterator();
-            while (playerIterator.hasNext()) {
-                final UUID uuid = playerIterator.next();
-                NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, uuid + "");
+
+        for (Map.Entry<Location, Set<UUID>> flightEntry : toGiveFlight.entrySet()) {
+            Set<UUID> bubbleFlightUuids = flightEntry.getValue();
+
+            for (UUID uuid : bubbleFlightUuids) {
                 if (!allBubbleUuids.contains(uuid)) {
                     allBubbleUuids.add(uuid);
+                    if (!bubbledPlayers.contains(uuid)) {
+                        bubbledPlayers.add(uuid);
+                    }
+                    Player p = Bukkit.getPlayer(uuid);
+                    p.setAllowFlight(true);
+                    
+                    NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, "Give flight:" + uuid.toString());
+
                 }
             }
-        }   
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            // if (p.getAllowFlight() && !allBubbleUuids.contains(p.getUniqueId())) {
-            //     p.setAllowFlight(false);
-            //     p.setFlying(false);
-            //     p.setFallDistance(0.0F);
-            // } else if (allBubbleUuids.contains(p.getUniqueId())) {
-            //     p.setAllowFlight(true);
+        }
+        // for (Map.Entry<Location, Collection<Entity>> checkEntry : toCheckFlight.entrySet()) {
+        //     Collection<Entity> tracedEntity = checkEntry.getValue();
+
+        //     for (Entity e : tracedEntity) {
+        //         if (e instanceof Player) {
+        //             Player p = (Player) e;
+        //             UUID uuid = p.getUniqueId();
+        //             if (!allTracedUuids.contains(uuid)) {
+        //                 allTracedUuids.add(uuid);
+        //                 NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, "all entities:" + uuid.toString());
+        //             }
+        //         }
+        //     }
+        // }
+
+        // for (UUID uuid : allTracedUuids) {
+        //     Player p = Bukkit.getPlayer(uuid);
+        //     NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, "for traced:" + p.getName());
+        //     if (allBubbleUuids.contains(uuid)) {
+        //         p.setAllowFlight(true);
+        //         if (!bubbledPlayers.contains(uuid)) {
+        //             bubbledPlayers.add(uuid);
+        //         }
+            // } else {
+            //     if (!bubbledPlayers.contains(uuid)) {
+            //         noFallDamage.add(p);
+            //         p.setAllowFlight(false);
+            //         p.setFlying(false);
+            //         p.setFallDistance(0.0f);
+            //         bubbledPlayers.remove(uuid);
+            //     }
+                
             // }
-            if (allBubbleUuids.contains(p.getUniqueId())) {
-                p.setAllowFlight(true);
+        //     }
+        // }
+        NotEnoughAddons.getInstance().getLogger().log(Level.WARNING, allBubbleUuids.toString());
+        for (UUID uuid : bubbledPlayers) {
+            if (!allBubbleUuids.contains(uuid)) {
+                Player p = Bukkit.getPlayer(uuid);
+                p.setAllowFlight(false);
+                p.setFlying(false);
+                p.setFallDistance(0.0f);
+                
+                bubbledPlayers.remove(uuid);
             }
         }
+        // toGiveFlight.clear();
+        // toCheckFlight.clear();
+        allBubbleUuids.clear();
+        // allTracedUuids.clear();
     }
  
-    public void updateValue(Location blockLocation, Set<UUID> enabledPlayers) {
-        uuidLogger.put(blockLocation, enabledPlayers);
-        NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, blockLocation.toString() + enabledPlayers);
-        NotEnoughAddons.getInstance().getLogger().log(Level.SEVERE, blockLocation.toString() + enabledPlayers);
+    public void updateSetFlying(Location blockLocation, Set<UUID> enabledPlayers) {
+        toGiveFlight.remove(blockLocation);
+        toGiveFlight.put(blockLocation, enabledPlayers);
+    }
+
+
+    public void allEntities(Location blockLocation, Collection<Entity> tracedEntities) {
+        // toCheckFlight.remove(blockLocation);
+        // toCheckFlight.put(blockLocation, tracedEntities);
     }
 }
