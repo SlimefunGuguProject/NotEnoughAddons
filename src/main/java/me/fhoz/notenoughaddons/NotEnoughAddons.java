@@ -60,14 +60,8 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(NotEnoughAddons.getInstance(), new Runnable() {
             public void run() {
                 flyingBubbleListener.run();
-                FlyingBubble.run();
             }
-        }, 0, 40);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(NotEnoughAddons.getInstance(), new Runnable() {
-            public void run() {
-                
-            }
-        }, 0, 10);
+        }, 0, 140);
 
         // Register ACT Recipes
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();

@@ -70,28 +70,28 @@ public class FlyingBubble extends AMachine {
     @Override
     public void tick(Block b) {
         bubbleLocation = b.getLocation();
-        // Collection<Entity> bubbledEntities = b.getWorld().getNearbyEntities(b.getLocation(), 25, 25, 25);
+        Collection<Entity> bubbledEntities = b.getWorld().getNearbyEntities(b.getLocation(), 25, 25, 25);
         
 
-        // flyingBubbleListener.allEntities(bubbleLocation, bubbledEntities);
-        // for (Entity entity : bubbledEntities) {
-        //     if (entity instanceof Player) {
-        //         Player p = (Player) entity;
-        //         if (!p.getAllowFlight()) {
-        //             enabledPlayers.add(p.getUniqueId());
-        //             // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
-        //             removeCharge(b.getLocation(), getEnergyConsumption());
-        //         }
-        //     }
-        // }
-        // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
+        flyingBubbleListener.allEntities(bubbleLocation, bubbledEntities);
+        for (Entity entity : bubbledEntities) {
+            if (entity instanceof Player) {
+                Player p = (Player) entity;
+                if (!p.getAllowFlight()) {
+                    enabledPlayers.add(p.getUniqueId());
+                    // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
+                    removeCharge(b.getLocation(), getEnergyConsumption());
+                }
+            }
+        }
+        flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
 
-        // for (UUID uuid : enabledPlayers) {
-        //     Player p = Bukkit.getPlayer(uuid);
-        //     if (p != null && !bubbledEntities.contains(p)) {
-        //         enabledPlayers.remove(uuid);
-        //     }
-        // }
+        for (UUID uuid : enabledPlayers) {
+            Player p = Bukkit.getPlayer(uuid);
+            if (p != null && !bubbledEntities.contains(p)) {
+                enabledPlayers.remove(uuid);
+            }
+        }
         // final Iterator<UUID> playerIterator = enabledPlayers.iterator();
         // while (playerIterator.hasNext()) {
         //     final UUID uuid = playerIterator.next();
