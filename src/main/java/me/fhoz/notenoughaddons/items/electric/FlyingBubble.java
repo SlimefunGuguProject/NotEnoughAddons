@@ -34,7 +34,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class FlyingBubble extends AMachine {
-    FlyingBubbleListener flyingBubbleListener = new FlyingBubbleListener();
     public static final int ENERGY_CONSUMPTION = 15;
     
     public final Set<UUID> enabledPlayers = new HashSet<>();
@@ -70,79 +69,31 @@ public class FlyingBubble extends AMachine {
     @Override
     public void tick(Block b) {
         bubbleLocation = b.getLocation();
+        FlyingBubbleListener.addBubble(bubbleLocation);
+
+
         Collection<Entity> bubbledEntities = b.getWorld().getNearbyEntities(b.getLocation(), 25, 25, 25);
         
 
-        flyingBubbleListener.allEntities(bubbleLocation, bubbledEntities);
         for (Entity entity : bubbledEntities) {
             if (entity instanceof Player) {
                 Player p = (Player) entity;
                 if (!p.getAllowFlight()) {
-                    enabledPlayers.add(p.getUniqueId());
-                    // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 }
-            }
-        }
-        flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
-
-        for (UUID uuid : enabledPlayers) {
-            Player p = Bukkit.getPlayer(uuid);
-            if (p != null && !bubbledEntities.contains(p)) {
-                enabledPlayers.remove(uuid);
-            }
-        }
-        // final Iterator<UUID> playerIterator = enabledPlayers.iterator();
-        // while (playerIterator.hasNext()) {
-        //     final UUID uuid = playerIterator.next();
-        //     Player p = Bukkit.getPlayer(uuid);
-        //     if (p != null && !bubbledEntities.contains(p)) {
-        //         playerIterator.remove();
-        //         // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
-        //     }
-        // }
-    }
-
-    public void run() {
-        Collection<Entity> bubbledEntities = bubbleLocation.getWorld().getNearbyEntities(bubbleLocation, 25, 25, 25);
-        
-
-        flyingBubbleListener.allEntities(bubbleLocation, bubbledEntities);
-        for (Entity entity : bubbledEntities) {
-            if (entity instanceof Player) {
-                Player p = (Player) entity;
-                if (!p.getAllowFlight()) {
-                    enabledPlayers.add(p.getUniqueId());
-                    // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
-                    removeCharge(bubbleLocation, getEnergyConsumption());
-                }
-            }
-        }
-        flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
-
-        for (UUID uuid : enabledPlayers) {
-            Player p = Bukkit.getPlayer(uuid);
-            if (p != null && !bubbledEntities.contains(p)) {
-                enabledPlayers.remove(uuid);
             }
         }
     }
     
 
     private ItemHandler onBlockBreak() {
+        FlyingBubbleListener.removeBubble(bubbleLocation);
         return new BlockBreakHandler(false, false) {
         
             @Override
             public void onPlayerBreak(BlockBreakEvent e, ItemStack tool, List<ItemStack> drops) {
-                final Iterator<UUID> playerIterator = enabledPlayers.iterator();
-                while (playerIterator.hasNext()) {
-                    final UUID uuid = playerIterator.next();
-                    Player p = Bukkit.getPlayer(uuid);
-                    if (p != null) {
-                        playerIterator.remove();
-                        // flyingBubbleListener.updateSetFlying(bubbleLocation, enabledPlayers);
-                    }
-                }
+                
+                FlyingBubbleListener.removeBubble(e.getBlock().getLocation());
             }
         };
     }

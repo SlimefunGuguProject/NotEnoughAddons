@@ -43,9 +43,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     public static final HashMap<ItemStack, List<Pair<ItemStack, List<RecipeChoice>>>> shapelessVanillaRecipes =
             new HashMap<>();
     
-    private final UpdateService updateService = new UpdateService(this);
-    private final FlyingBubbleListener flyingBubbleListener = new FlyingBubbleListener();
-    
+    private final UpdateService updateService = new UpdateService(this);    
     @SneakyThrows
     @Override
     public void onEnable() {
@@ -53,15 +51,12 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         // Read something from your config.yml
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
-        // ScheduledExecutorService executorService;
-        // executorService = Executors.newSingleThreadScheduledExecutor();
-        // executorService.scheduleAtFixedRate(flyingBubbleListener::run, 0, 2, TimeUnit.SECONDS);
         
         Bukkit.getScheduler().scheduleSyncRepeatingTask(NotEnoughAddons.getInstance(), new Runnable() {
             public void run() {
-                flyingBubbleListener.run();
+                FlyingBubbleListener.run();
             }
-        }, 0, 140);
+        }, 0, 60);
 
         // Register ACT Recipes
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
