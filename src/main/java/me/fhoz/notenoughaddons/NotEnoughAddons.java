@@ -15,14 +15,21 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import lombok.SneakyThrows;
 import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.items.AngelBlock;
+import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
 import me.fhoz.notenoughaddons.items.electric.FlyingBubble;
 import me.fhoz.notenoughaddons.listeners.FlyingBubbleListener;
+import me.fhoz.notenoughaddons.listeners.MinerBackpackListener;
+import me.fhoz.notenoughaddons.utils.NEAItems;
 import me.fhoz.notenoughaddons.utils.Utils;
 import me.fhoz.notenoughaddons.services.UpdateService;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -34,6 +41,7 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.RayTraceResult;
 
 public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
@@ -48,6 +56,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         instance = this;
+        saveDefaultConfig();
         // Read something from your config.yml
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
@@ -98,7 +107,8 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
         // Registering Items
         NEAItemSetup.setup(this);
-
+        new MinerBackpackListener(this, (MinerBackpack) NEAItems.MINER_BACKPACK.getItem());
+        
         BoostJump.onEnable();
     }
     
@@ -213,5 +223,16 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     public static @Nonnull UpdateService getUpdateService() {
         return instance.updateService;
+    }
+
+    @Nullable
+    public static BukkitTask runSync(@Nonnull Runnable runnable) {
+        Validate.notNull(runnable, "Cannot run null");
+
+        if (instance == null || !instance.isEnabled()) {
+            return null;
+        }
+
+        return instance.getServer().getScheduler().runTask(getInstance(), runnable);
     }
 }

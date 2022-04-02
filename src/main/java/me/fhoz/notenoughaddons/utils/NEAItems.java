@@ -1,6 +1,9 @@
 package me.fhoz.notenoughaddons.utils;
 
 import dev.j3fftw.extrautils.utils.LoreBuilderDynamic;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
@@ -85,6 +88,16 @@ public class NEAItems {
         "&f&oYOU ARE ON THE LIGHT SIDE"
     );
 
+    
+    // Multiblocks
+    public static final SlimefunItemStack NEA_COMPRESSOR = new SlimefunItemStack("NEA_COMPRESSOR",
+        Material.PISTON,
+        "&6Compressor",
+        "&cCompresses &7and &cdecompresses &7resources"
+    );
+
+
+    
     // Machines
     public static final SlimefunItemStack BUDGET_DUST_FABRICATOR = new SlimefunItemStack("BUDGET_DUST_FABRICATOR",
         Material.CRACKED_STONE_BRICKS,
@@ -121,6 +134,21 @@ public class NEAItems {
         "&6Jump Boost",
         "&7Launches you in the air, then gets consumed",
         LoreBuilder.RIGHT_CLICK_TO_USE
+    );
+
+    public static final SlimefunItemStack MINER_BACKPACK = new SlimefunItemStack("MINER_BACKPACK",
+        new CustomItemStack(PlayerHead.getItemStack(PlayerSkin.fromHashCode("8dcc6eb40f3bada41e4339888d6d207437598bdbd175c2e731191d5a9a42d3c8"))),
+        "&6Miner Backpack",
+        "",
+        "&fAllows you to store ores",
+        "&fAutomatically stores them when you pick them up",
+        "&fMust be in your inventory",
+        "",
+        "&fSize: &e27",
+        "",
+        "&7ID: <ID>",
+        "",
+       "&eRight Click &7to open."
     );
 
     static {
