@@ -13,10 +13,7 @@ import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
 import me.fhoz.notenoughaddons.items.electric.FlyingBubble;
-import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.utils.NEAItems;
-import me.fhoz.notenoughaddons.utils.CompressedItemSetup;
-import me.fhoz.notenoughaddons.utils.NEACompressedItems;
 
 import javax.annotation.Nonnull;
 
@@ -65,11 +62,6 @@ public final class NEAItemSetup {
         // );
 
         public static void setup(@Nonnull NotEnoughAddons plugin) {
-                // CompressedItemSetup.setup(compressed_dust, NEACompressedItems.COMPRESSED_COPPER_DUST, SlimefunItems.COPPER_DUST, RecipeType.COMPRESSOR, plugin);
-                // CompressedItemSetup.setup(compressed_dust, NEACompressedItems.COMPRESSED_GOLD_DUST, SlimefunItems.GOLD_DUST, RecipeType.COMPRESSOR, plugin);
-                // CompressedItemSetup.setup(compressed_dust, NEACompressedItems.COMPRESSED_IRON_DUST, SlimefunItems.IRON_DUST, RecipeType.COMPRESSOR, plugin);
-                // CompressedItemSetup.setup(compressed_dust, NEACompressedItems.COMPRESSED_LEAD_DUST, SlimefunItems.LEAD_DUST, RecipeType.COMPRESSOR, plugin);
-                // CompressedItemSetup.setupDecompressing(decompressing_recipes, RecipeType.COMPRESSOR, plugin);
                 // Resources
                 // new SlimefunItem(gloobs, NEAItems.RIGHT_GLOOB_ESSENCE, RecipeType.SMELTERY,
                 // new ItemStack[] {

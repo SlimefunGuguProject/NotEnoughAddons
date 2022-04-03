@@ -18,7 +18,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.SneakyThrows;
-import me.fhoz.notenoughaddons.boosts.BoostJump;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
 import me.fhoz.notenoughaddons.items.electric.FlyingBubble;
@@ -109,13 +108,11 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         NEAItemSetup.setup(this);
         new MinerBackpackListener(this, (MinerBackpack) NEAItems.MINER_BACKPACK.getItem());
         
-        BoostJump.onEnable();
     }
     
     @Override
     public void onDisable() {
         AngelBlock.onDisable();
-        BoostJump.onDisable();
     }
 
     @Override
