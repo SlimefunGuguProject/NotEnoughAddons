@@ -5,44 +5,37 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.fhoz.notenoughaddons.NotEnoughAddons;
-import me.fhoz.notenoughaddons.listeners.FlyingBubbleListener;
 import me.fhoz.notenoughaddons.abstractitems.AMachine;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Flying;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
+
 
 public class FlyingBubble extends AMachine {
-    public static final int ENERGY_CONSUMPTION = 15;
-    
-    public final Set<UUID> enabledPlayers = new HashSet<>();
-    public org.bukkit.Location bubbleLocation;
+    private static final Map<Location, Set<UUID>> allEnabledPlayers = new HashMap<>();
+    private static final Set<UUID> allUuids = new HashSet<>();
     private static final int[] BORDER = new int[] { 1, 2, 6, 7, 9, 10, 11, 15, 16, 17, 19, 20, 24, 25 };
     private static final int[] BORDER_IN = new int[] { 3, 4, 5, 12, 14, 21, 22, 23 };
     private static final int[] BORDER_OUT = new int[] { 0, 8, 18, 26 };
-
-    public static final int CAPACITY = ENERGY_CONSUMPTION * 3;
 
     public FlyingBubble(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -53,9 +46,9 @@ public class FlyingBubble extends AMachine {
     @Override
     public void preRegister() {
         addItemHandler(new BlockTicker() {
+
             @Override
             public void tick(Block b, SlimefunItem sfItem, Config data) {
-                
                 FlyingBubble.this.tick(b);
             }
 
@@ -68,32 +61,62 @@ public class FlyingBubble extends AMachine {
 
     @Override
     public void tick(Block b) {
-        bubbleLocation = b.getLocation();
-        FlyingBubbleListener.addBubble(bubbleLocation);
-
-
+        Set<UUID> playersInBubble = allEnabledPlayers.getOrDefault(b.getLocation(), new HashSet<>());
         Collection<Entity> bubbledEntities = b.getWorld().getNearbyEntities(b.getLocation(), 25, 25, 25);
-        
-
         for (Entity entity : bubbledEntities) {
-            if (entity instanceof Player) {
+            if (entity instanceof Player && getCharge(b.getLocation()) >= getEnergyConsumption()) {
                 Player p = (Player) entity;
+                playersInBubble.add(p.getUniqueId());
+                allEnabledPlayers.put(b.getLocation(), playersInBubble);
                 if (!p.getAllowFlight()) {
+                    p.setAllowFlight(true);
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 }
             }
         }
-    }
-    
 
+        for (UUID uuid : playersInBubble) {
+            Player p = Bukkit.getPlayer(uuid);
+            if (p != null && !bubbledEntities.contains(p)) {
+                allEnabledPlayers.get(b.getLocation()).remove(p.getUniqueId());
+                checkPlayer(p.getUniqueId());
+            }
+        }
+    }
+
+    private void checkPlayer(UUID u) {
+        allUuids.clear();
+        for (Map.Entry<Location, Set<UUID>> entry : allEnabledPlayers.entrySet()) {
+            Set<UUID> uuidSet = entry.getValue();
+            for (UUID uuid : uuidSet) {
+                if (!allUuids.contains(uuid)) {
+                    allUuids.add(uuid);
+                }
+            }
+        }
+
+        if (!allUuids.contains(u)) {
+            Player p = Bukkit.getPlayer(u);
+            p.setAllowFlight(false);
+            p.setFlying(false);
+            p.setFallDistance(0.0f);
+        }
+    }
+        
     private ItemHandler onBlockBreak() {
-        FlyingBubbleListener.removeBubble(bubbleLocation);
         return new BlockBreakHandler(false, false) {
         
             @Override
             public void onPlayerBreak(BlockBreakEvent e, ItemStack tool, List<ItemStack> drops) {
-                
-                FlyingBubbleListener.removeBubble(e.getBlock().getLocation());
+                if (allEnabledPlayers.get(e.getBlock().getLocation()) != null) {
+                    for (UUID uuid : allEnabledPlayers.get(e.getBlock().getLocation())) {
+                        Player p = Bukkit.getPlayer(uuid);
+                        if (p != null) {
+                            allEnabledPlayers.get(e.getBlock().getLocation()).remove(p.getUniqueId());
+                            checkPlayer(p.getUniqueId());
+                        }
+                    }
+                }
             }
         };
     }
@@ -117,7 +140,7 @@ public class FlyingBubble extends AMachine {
         
         return borders;
     }
-
+    
     @Override
     public int[] getInputSlots() {
         return new int[] {13};
@@ -128,30 +151,14 @@ public class FlyingBubble extends AMachine {
         return new int[] {13};
     }
 
-
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.CAULDRON);
+        return new ItemStack(Material.DRAGON_EGG);
     }
-
-    @Override
-    public int getCapacity() {
-        return CAPACITY;
-    }
-
-    @Override
-    public int getSpeed() {
-        return 1;
-    }
-
-    @Override
-    public int getEnergyConsumption() {
-        return ENERGY_CONSUMPTION;
-    }
-
+    
     @Override
     public int getProgressBarSlot() {
         return 4;
     }
-
+    
 }

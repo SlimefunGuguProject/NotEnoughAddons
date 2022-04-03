@@ -1,13 +1,10 @@
 package me.fhoz.notenoughaddons;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.NestedItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.PressureChamber;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
 import me.fhoz.notenoughaddons.items.AngelBlock;
@@ -17,7 +14,6 @@ import me.fhoz.notenoughaddons.utils.NEAItems;
 
 import javax.annotation.Nonnull;
 
-import com.google.gson.internal.bind.SqlDateTypeAdapter;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -31,16 +27,6 @@ public final class NEAItemSetup {
                 new CustomItemStack(Material.COMMAND_BLOCK, "&2&n&lN&r&aot&2&l&nE&r&anough&2&l&nA&r&addons")
         );
 
-        // public static final ItemGroup decompressing_recipes = new SubItemGroup(
-        //         new NamespacedKey(NotEnoughAddons.getInstance(), "decompressing_recipes"), notenoughaddons,
-        //         new CustomItemStack(Material.TNT, "&aDecompressing Recipes"), 36
-        // );
-
-        // public static final SubItemGroup compressed_dust = new SubItemGroup(
-        //         new NamespacedKey(NotEnoughAddons.getInstance(), "compressed_dust"), notenoughaddons, 
-        //         new CustomItemStack(Material.PISTON, "&bCompressed Dust"), 35
-        // );
-
         private static final ItemGroup machines = new SubItemGroup(
                 new NamespacedKey(NotEnoughAddons.getInstance(), "machines"), notenoughaddons,
                 new CustomItemStack(Material.DEAD_BUSH, "&bMachines"), 1
@@ -51,87 +37,8 @@ public final class NEAItemSetup {
                 new CustomItemStack(Material.LEAD, "&bItems"), 2
         );
 
-        // public static final ItemGroup boosts = new SubItemGroup(
-        //         new NamespacedKey(NotEnoughAddons.getInstance(), "boosts"), notenoughaddons,
-        //         new CustomItemStack(Material.LINGERING_POTION, "&bBoosts"), 3
-        // );
-
-        // public static final ItemGroup gloobs = new SubItemGroup(
-        //         new NamespacedKey(NotEnoughAddons.getInstance(), "gloobs"), notenoughaddons,
-        //         new CustomItemStack(Material.IRON_INGOT, "&2Glo&9obs"), 4
-        // );
 
         public static void setup(@Nonnull NotEnoughAddons plugin) {
-                // Resources
-                // new SlimefunItem(gloobs, NEAItems.RIGHT_GLOOB_ESSENCE, RecipeType.SMELTERY,
-                // new ItemStack[] {
-                // new ItemStack(Material.LAPIS_LAZULI), null, null,
-                //         null, null, null,
-                //         null, null, null,
-                // }, new SlimefunItemStack(NEAItems.RIGHT_GLOOB_ESSENCE, 2)).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.LEFT_GLOOB_ESSENCE, RecipeType.SMELTERY,
-                // new ItemStack[] {
-                // new ItemStack(Material.EMERALD), null, null,
-                //         null, null, null,
-                //         null, null, null,
-                // }, new SlimefunItemStack(NEAItems.LEFT_GLOOB_ESSENCE, 2)).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.RIGHT_GLOOB, RecipeType.SMELTERY,
-                // new ItemStack[] {
-                //         NEAItems.RIGHT_GLOOB_ESSENCE, new ItemStack(Material.LAPIS_LAZULI), new ItemStack(Material.BLUE_STAINED_GLASS_PANE),
-                //         null, null, null,
-                //         null, null, null,
-                // }).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.LEFT_GLOOB, RecipeType.SMELTERY,
-                // new ItemStack[] {
-                //         NEAItems.LEFT_GLOOB_ESSENCE, new ItemStack(Material.EMERALD), new ItemStack(Material.GREEN_STAINED_GLASS_PANE),
-                //         null, null, null,
-                //         null, null, null,
-                // }).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.POWERED_RIGHT_GLOOB, RecipeType.ENHANCED_CRAFTING_TABLE,
-                // new ItemStack[] {
-                //         NEAItems.RIGHT_GLOOB_ESSENCE, NEAItems.RIGHT_GLOOB, NEAItems.RIGHT_GLOOB_ESSENCE,
-                //         NEAItems.RIGHT_GLOOB, SlimefunItems.CARBON, NEAItems.RIGHT_GLOOB,
-                //         NEAItems.RIGHT_GLOOB_ESSENCE, NEAItems.RIGHT_GLOOB, NEAItems.RIGHT_GLOOB_ESSENCE
-                // }).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.POWERED_LEFT_GLOOB, RecipeType.ENHANCED_CRAFTING_TABLE,
-                // new ItemStack[] {
-                //         NEAItems.LEFT_GLOOB_ESSENCE, NEAItems.LEFT_GLOOB, NEAItems.LEFT_GLOOB_ESSENCE,
-                //         NEAItems.LEFT_GLOOB, SlimefunItems.CARBON, NEAItems.LEFT_GLOOB,
-                //         NEAItems.LEFT_GLOOB_ESSENCE, NEAItems.LEFT_GLOOB, NEAItems.LEFT_GLOOB_ESSENCE
-                // }).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.ENERGIZED_RIGHT_GLOOB, RecipeType.ENHANCED_CRAFTING_TABLE,
-                // new ItemStack[] {
-                //         SlimefunItems.COMPRESSED_CARBON, NEAItems.RIGHT_GLOOB_ESSENCE, SlimefunItems.COMPRESSED_CARBON,
-                //         NEAItems.LEFT_GLOOB, NEAItems.POWERED_RIGHT_GLOOB, NEAItems.RIGHT_GLOOB,
-                //         SlimefunItems.COMPRESSED_CARBON, NEAItems.RIGHT_GLOOB_ESSENCE, SlimefunItems.COMPRESSED_CARBON
-                // }).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.ENERGIZED_LEFT_GLOOB, RecipeType.ENHANCED_CRAFTING_TABLE,
-                // new ItemStack[] {
-                //         SlimefunItems.COMPRESSED_CARBON, NEAItems.LEFT_GLOOB_ESSENCE, SlimefunItems.COMPRESSED_CARBON,
-                //         NEAItems.LEFT_GLOOB, NEAItems.POWERED_LEFT_GLOOB, NEAItems.RIGHT_GLOOB,
-                //         SlimefunItems.COMPRESSED_CARBON, NEAItems.LEFT_GLOOB_ESSENCE, SlimefunItems.COMPRESSED_CARBON
-                // }).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.DARK_GLOOB, RecipeType.ANCIENT_ALTAR,
-                // new ItemStack[] {
-                //         SlimefunItems.CARBONADO, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO,
-                //         NEAItems.ENERGIZED_LEFT_GLOOB, new ItemStack(Material.WITHER_SKELETON_SKULL), NEAItems.ENERGIZED_RIGHT_GLOOB,
-                //         SlimefunItems.CARBONADO, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO
-                // }).register(plugin);
-
-                // new SlimefunItem(gloobs, NEAItems.LIGHT_GLOOB, RecipeType.ANCIENT_ALTAR,
-                // new ItemStack[] {
-                //         SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.SYNTHETIC_SAPPHIRE,
-                //         NEAItems.ENERGIZED_LEFT_GLOOB, new ItemStack(Material.NETHER_STAR), NEAItems.ENERGIZED_RIGHT_GLOOB,
-                //         SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.SYNTHETIC_SAPPHIRE
-                // }).register(plugin);
                 
                 // Machines
                 new BudgetDustFabricator(machines, NEAItems.BUDGET_DUST_FABRICATOR,
@@ -141,14 +48,17 @@ public final class NEAItemSetup {
                         SlimefunItems.MAGNET, new ItemStack(Material.WATER_BUCKET), SlimefunItems.MAGNET
                 }).register(plugin);
 
-                // new FlyingBubble(machines, NEAItems.FLYING_BUBBLE, RecipeType.ENHANCED_CRAFTING_TABLE, 
-                // new ItemStack[] {
-                //         SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.DIAMOND_BLOCK), SlimefunItems.BLISTERING_INGOT_3,
-                //         NEAItems.LEFT_GLOOB, SlimefunItems.BIG_CAPACITOR , NEAItems.RIGHT_GLOOB,
-                //         SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT
-                // }).register(plugin);
+                new FlyingBubble(machines, NEAItems.FLYING_BUBBLE, RecipeType.ENHANCED_CRAFTING_TABLE, 
+                new ItemStack[] {
+                        SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.DIAMOND_BLOCK), SlimefunItems.BLISTERING_INGOT_3,
+                        new ItemStack(Material.PHANTOM_MEMBRANE), SlimefunItems.BIG_CAPACITOR , new ItemStack(Material.PHANTOM_MEMBRANE),
+                        SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT
+                })
+                .setEnergyCapacity(1024)
+                .setEnergyConsumption(128)
+                .setProcessingSpeed(1)
+                .register(plugin);
                 
-
                 // Items
                 new AngelBlock(items, NEAItems.ANGEL_BLOCK,
                         RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
@@ -157,20 +67,11 @@ public final class NEAItemSetup {
                         new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FEATHER)
                 }).register(plugin);
 
-                new MinerBackpack(27, items, NEAItems.MINER_BACKPACK, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new MinerBackpack(54, items, NEAItems.MINER_BACKPACK, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null, 
-                        null, null, null, 
-                        null, null, null
+                        SlimefunItems.EARTH_RUNE, SlimefunItems.TALISMAN_MINER, SlimefunItems.EARTH_RUNE, 
+                        SlimefunItems.ENDER_LUMP_3, SlimefunItems.BACKPACK_SMALL, SlimefunItems.ENDER_LUMP_3, 
+                        SlimefunItems.EARTH_RUNE, SlimefunItems.TALISMAN_MINER, SlimefunItems.EARTH_RUNE
                 }).register(plugin);
-
-
-                // Boosts
-                // new BoostJump(boosts, NEAItems.BOOST_JUMP,
-                //     RecipeType.MAGIC_WORKBENCH, new ItemStack[]{
-                //         new ItemStack(Material.LILY_PAD), new ItemStack(Material.FEATHER), new ItemStack(Material.RABBIT),
-                //         null, null, null,
-                //         null, null, null
-                // }).register(plugin);
     }
 }
