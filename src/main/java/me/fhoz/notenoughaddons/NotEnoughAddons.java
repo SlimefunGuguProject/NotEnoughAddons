@@ -14,12 +14,6 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
-
 import lombok.SneakyThrows;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
@@ -52,32 +46,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
             new HashMap<>();
     
     private final UpdateService updateService = new UpdateService(this); 
-    public static StateFlag DISABLE_ANGEL_BLOCK;
-    
-    
-    @Override
-    public void onLoad() {
-        // WorldGuard settings
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-
-        try {
-            // create a flag with the name "disable-angel-block", defaulting to true
-            StateFlag flag = new StateFlag("disable-angel-block", true);
-            registry.register(flag);
-            DISABLE_ANGEL_BLOCK = flag; // only set our field if there was no error
-        } catch (FlagConflictException e) {
-            // some other plugin registered a flag by the same name already.
-            // you can use the existing flag, but this may cause conflicts - be sure to check type
-            Flag<?> existing = registry.get("disable-angel-block");
-            if (existing instanceof StateFlag) {
-                DISABLE_ANGEL_BLOCK = (StateFlag) existing;
-            } else {
-                // types don't match - this is bad news! some other plugin conflicts with you
-                // hopefully this never actually happens
-            }
-        }
-    }
-
     
     @SneakyThrows
     @Override

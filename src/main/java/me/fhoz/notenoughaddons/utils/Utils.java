@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -178,6 +179,37 @@ public final class Utils {
     public static BukkitTask runSync(Runnable r, long delay) {
         return NotEnoughAddons.getInstance() != null && NotEnoughAddons.getInstance().isEnabled() ?
             Bukkit.getScheduler().runTaskLater(NotEnoughAddons.getInstance(), r, delay) : null;
+    }
+
+    public static Vector fastNormalize(Vector v) {
+        float length = fastLength(v);
+        v.multiply(length);
+
+        return v;
+    }
+
+    public static float fastLength(Vector v) {
+        double x = v.getX();
+        double y = v.getY();
+        double z = v.getZ();
+
+        return fastSqrt(x * x + y * y + z * z);
+    }
+
+    public static float fastSqrt(double double_num) {
+        int i;
+        float x2, y;
+        float threehalfs = 1.5F;
+        float num = (float) double_num;
+
+        x2 = num * 0.5F;
+        y = num;
+        i = Float.floatToIntBits(y);
+        i = 0x5f3759df - (i >> 1);
+        y = Float.intBitsToFloat(i);
+        y = y * (threehalfs - (x2 * y * y));
+
+        return y;
     }
 }
 

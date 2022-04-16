@@ -20,16 +20,6 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.association.RegionAssociable;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.regions.RegionQuery;
-
 import java.util.ArrayList;
 
 
@@ -48,18 +38,6 @@ public class AngelBlock extends SimpleSlimefunItem<ItemUseHandler> {
             Player p = e.getPlayer();
             final Location playerLocation = p.getLocation(); 
             final Location blockLocation = playerLocation;
-
-            LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(p);
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(playerLocation));
-
-
-            if (!set.testState(localPlayer, Flags.BUILD)) {
-                Utils.send(p, "Missing build permissions");
-                return;
-            }
-
             blockLocation.setY(blockLocation.getY() - 1);
             Block targetBlock = p.getWorld().getBlockAt(blockLocation);
             if (targetBlock.getType() != Material.AIR) {

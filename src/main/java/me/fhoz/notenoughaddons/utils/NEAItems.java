@@ -7,9 +7,18 @@ import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.GoldIngot;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.fhoz.notenoughaddons.items.electric.FlyingBubble;
 import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.CopperShortsword;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.GoldShortsword;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.IronShortsword;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.LeadShortsword;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.PlatinumShortsword;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.SilverShortsword;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.TinShortsword;
+import me.fhoz.notenoughaddons.terraria.weapons.shortsword.TungstenShortsword;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -66,5 +75,81 @@ public class NEAItems {
         "&7ID: <ID>",
         "",
         LoreBuilder.RIGHT_CLICK_TO_OPEN
+    );
+
+    // TERRARIA
+
+    // TOOLS
+
+    public static final SlimefunItemStack SHORTSWORD_COPPER = new SlimefunItemStack("SHORTSWORD_COPPER", 
+        Material.WOODEN_SWORD,
+        "&fCopper Shortsword",
+        TerrariaUtils.getDMG(CopperShortsword.getDMG()),
+        TerrariaUtils.getCC(CopperShortsword.getCC()),
+        TerrariaUtils.useTimeConv(CopperShortsword.getUseTime()),
+        TerrariaUtils.kbConv(CopperShortsword.getKB())
+    );
+
+    public static final SlimefunItemStack SHORTSWORD_TIN = new SlimefunItemStack("SHORTSWORD_TIN", 
+        Material.WOODEN_SWORD,
+        "&fTin Shortsword",
+        TerrariaUtils.getDMG(TinShortsword.getDMG()),
+        TerrariaUtils.getCC(TinShortsword.getCC()),
+        TerrariaUtils.useTimeConv(TinShortsword.getUseTime()),
+        TerrariaUtils.kbConv(TinShortsword.getKB())
+    );
+
+    public static final SlimefunItemStack SHORTSWORD_IRON = new SlimefunItemStack("SHORTSWORD_IRON", 
+        Material.WOODEN_SWORD,
+        "&fIron Shortsword",
+        TerrariaUtils.getDMG(IronShortsword.getDMG()),
+        TerrariaUtils.getCC(IronShortsword.getCC()),
+        TerrariaUtils.useTimeConv(IronShortsword.getUseTime()),
+        TerrariaUtils.kbConv(IronShortsword.getKB())
+    );
+
+    public static final SlimefunItemStack SHORTSWORD_LEAD = new SlimefunItemStack("SHORTSWORD_LEAD", 
+        Material.WOODEN_SWORD,
+        "&fLead Shortsword",
+        TerrariaUtils.getDMG(LeadShortsword.getDMG()),
+        TerrariaUtils.getCC(LeadShortsword.getCC()),
+        TerrariaUtils.useTimeConv(LeadShortsword.getUseTime()),
+        TerrariaUtils.kbConv(LeadShortsword.getKB())
+    );
+
+    public static final SlimefunItemStack SHORTSWORD_SILVER = new SlimefunItemStack("SHORTSWORD_SILVER", 
+        Material.WOODEN_SWORD,
+        "&fSilver Shortsword",
+        TerrariaUtils.getDMG(SilverShortsword.getDMG()),
+        TerrariaUtils.getCC(SilverShortsword.getCC()),
+        TerrariaUtils.useTimeConv(SilverShortsword.getUseTime()),
+        TerrariaUtils.kbConv(SilverShortsword.getKB())
+    );
+
+    public static final SlimefunItemStack SHORTSWORD_TUNGSTEN = new SlimefunItemStack("SHORTSWORD_TUNGSTEN", 
+        Material.WOODEN_SWORD,
+        "&fTungsten Shortsword",
+        TerrariaUtils.getDMG(TungstenShortsword.getDMG()),
+        TerrariaUtils.getCC(TungstenShortsword.getCC()),
+        TerrariaUtils.useTimeConv(TungstenShortsword.getUseTime()),
+        TerrariaUtils.kbConv(TungstenShortsword.getKB())
+    );
+
+    public static final SlimefunItemStack SHORTSWORD_GOLD = new SlimefunItemStack("SHORTSWORD_GOLD", 
+        Material.WOODEN_SWORD,
+        "&fGold Shortsword",
+        TerrariaUtils.getDMG(GoldShortsword.getDMG()),
+        TerrariaUtils.getCC(GoldShortsword.getCC()),
+        TerrariaUtils.useTimeConv(GoldShortsword.getUseTime()),
+        TerrariaUtils.kbConv(GoldShortsword.getKB())
+    );
+
+    public static final SlimefunItemStack SHORTSWORD_PLATINUM = new SlimefunItemStack("SHORTSWORD_PLATINUM", 
+        Material.WOODEN_SWORD,
+        "&fPlatinum Shortsword",
+        TerrariaUtils.getDMG(PlatinumShortsword.getDMG()),
+        TerrariaUtils.getCC(PlatinumShortsword.getCC()),
+        TerrariaUtils.useTimeConv(PlatinumShortsword.getUseTime()),
+        TerrariaUtils.kbConv(PlatinumShortsword.getKB())
     );
 }
