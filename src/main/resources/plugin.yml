@@ -29,6 +29,10 @@ commands:
     description: NotEnoughAddons Command
     usage: /<command>
     aliases: [nea]
+  repairweapon:
+    description: Repair your CrackShot weapon
+    aliases: [rwp, repairwp, weaponrepair, wprepair]
+    usage: Syntax error! Simply type /&lt;command&gt; to repair your weapon.
 
 permissions:
   notenoughaddons.admin:

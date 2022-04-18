@@ -11,10 +11,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.SneakyThrows;
+import me.fhoz.notenoughaddons.crackshot.crackshot;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
 import me.fhoz.notenoughaddons.listeners.FlyingBubbleListener;
@@ -23,17 +26,23 @@ import me.fhoz.notenoughaddons.utils.NEAItems;
 import me.fhoz.notenoughaddons.utils.Utils;
 import me.fhoz.notenoughaddons.services.UpdateService;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.permission.Permission;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.RayTraceResult;
@@ -46,15 +55,20 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
             new HashMap<>();
     
     private final UpdateService updateService = new UpdateService(this); 
-    
+    private static Logger log = null;
+    private static Economy econ = null;
+
     @SneakyThrows
     @Override
     public void onEnable() {
         instance = this;
+        log = instance.getLogger();
         saveDefaultConfig();
         // Read something from your config.yml
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
+
+        this.getServer().getPluginManager().registerEvents(new crackshot(), this);
 
         // Register ACT Recipes
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
@@ -96,9 +110,8 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
         // Registering Items
         NEAItemSetup.setup(this);
-        new MinerBackpackListener(this, (MinerBackpack) NEAItems.MINER_BACKPACK.getItem());
-        
-        
+        new MinerBackpackListener(this, (MinerBackpack) NEAItems.MINER_BACKPACK.getItem());    
+        setupVault();
     }
     
     @Override
@@ -108,8 +121,9 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command cmd, @Nonnull String label, String[] args) {
-        
-        if (args.length == 0) {
+
+
+        if (args.length == 0 && !label.equalsIgnoreCase("repairweapon")) {
             Utils.send(sender, "&cInvalid command");
             return true;
         }
@@ -120,6 +134,12 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         }
 
         Player p = (Player) sender;
+
+        if (label.equalsIgnoreCase("repairweapon")) {
+            crackshot.repairWeapon(econ, p);
+            return true;
+        }
+
         switch (args[0].toUpperCase()) {
             case "META":
                 Utils.send(p, String.valueOf(p.getInventory().getItemInMainHand().getItemMeta()));
@@ -170,11 +190,10 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
                         Utils.send(p, "&ePerhaps its already up to date?");
                     }
                     return true;
-            }
+                }
         }
 
         Utils.send(p, "&cCommand not found");
-
         return false;
     }
 
@@ -211,6 +230,26 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     public static @Nonnull UpdateService getUpdateService() {
         return instance.updateService;
+    }
+
+    private void setupVault() {
+        if (!setupEconomy()) {
+            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
     }
 
     @Nullable
