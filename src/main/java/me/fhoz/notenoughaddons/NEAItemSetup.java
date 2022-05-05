@@ -1,48 +1,39 @@
 package me.fhoz.notenoughaddons;
 
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.NestedItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.CopperShortsword;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.GoldShortsword;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.IronShortsword;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.LeadShortsword;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.PlatinumShortsword;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.SilverShortsword;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.TinShortsword;
-import me.fhoz.notenoughaddons.terraria.weapons.shortsword.TungstenShortsword;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
 import me.fhoz.notenoughaddons.items.electric.FlyingBubble;
+import me.fhoz.notenoughaddons.machines.BudgetDustFabricator;
 import me.fhoz.notenoughaddons.utils.NEAItems;
-
-import javax.annotation.Nonnull;
-
-
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 
 public final class NEAItemSetup {
         private NEAItemSetup() {}
         // ItemGroup
         private static final NestedItemGroup notenoughaddons = new NestedItemGroup(
                 new NamespacedKey(NotEnoughAddons.getInstance(), "notenoughaddons"),
-                new CustomItemStack(Material.COMMAND_BLOCK, "&2&n&lN&r&aot&2&l&nE&r&anough&2&l&nA&r&addons")
+                new CustomItemStack(Material.COMMAND_BLOCK, "&2七彩物品")
         );
 
         private static final ItemGroup machines = new SubItemGroup(
                 new NamespacedKey(NotEnoughAddons.getInstance(), "machines"), notenoughaddons,
-                new CustomItemStack(Material.DEAD_BUSH, "&bMachines"), 1
+                new CustomItemStack(Material.DEAD_BUSH, "&b机器"), 1
         );
 
         private static final ItemGroup items = new SubItemGroup(
                 new NamespacedKey(NotEnoughAddons.getInstance(), "items"), notenoughaddons,
-                new CustomItemStack(Material.LEAD, "&bItems"), 2
+                new CustomItemStack(Material.LEAD, "&b物品"), 2
         );
 
 
