@@ -75,57 +75,57 @@ public final class NEAItemSetup {
 
                 new CopperShortsword(items, NEAItems.SHORTSWORD_COPPER, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        SlimefunItems.COPPER_INGOT, null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
 
                 new TinShortsword(items, NEAItems.SHORTSWORD_TIN, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        SlimefunItems.TIN_INGOT, null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
 
                 new IronShortsword(items, NEAItems.SHORTSWORD_IRON, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        new ItemStack(Material.IRON_INGOT), null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
 
                 new LeadShortsword(items, NEAItems.SHORTSWORD_LEAD, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        SlimefunItems.LEAD_INGOT, null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
 
                 new SilverShortsword(items, NEAItems.SHORTSWORD_SILVER, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        SlimefunItems.SILVER_INGOT, null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
 
                 new TungstenShortsword(items, NEAItems.SHORTSWORD_TUNGSTEN, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        SlimefunItems.COMPRESSED_CARBON, null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
 
                 new GoldShortsword(items, NEAItems.SHORTSWORD_GOLD, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        new ItemStack(Material.GOLD_INGOT), null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
 
                 new PlatinumShortsword(items, NEAItems.SHORTSWORD_PLATINUM, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
-                        new ItemStack(Material.DIRT), null, null,
-                        null, null, null,
+                        new ItemStack(Material.SILICON), null, null,
+                        new ItemStack(Material.STICK), null, null,
                         null, null, null
                 }).register(plugin);
     }
