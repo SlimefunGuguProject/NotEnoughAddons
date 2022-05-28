@@ -24,7 +24,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 

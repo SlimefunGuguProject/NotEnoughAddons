@@ -7,7 +7,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class TerrariaUtils {
