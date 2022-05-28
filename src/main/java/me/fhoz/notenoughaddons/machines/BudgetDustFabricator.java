@@ -1,18 +1,18 @@
 package me.fhoz.notenoughaddons.machines;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricDustWasher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWasher;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import me.fhoz.notenoughaddons.utils.Constants;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -55,7 +55,7 @@ public class BudgetDustFabricator extends AContainer implements RecipeDisplayIte
 
         for (SlimefunItemStack dust : Constants.dusts) {
             displayRecipes.add(new CustomItemStack(Material.COBBLESTONE,
-                "&fAny Cobblestone Variant", "&7Cobblestone", "&7Andesite", "&7Diorite", "&7Granite"
+                "&f任何圆石变种", "&7圆石", "&7安山岩", "&7闪长岩", "&7花岗岩"
             ));
             displayRecipes.add(dust);
         }
@@ -74,7 +74,7 @@ public class BudgetDustFabricator extends AContainer implements RecipeDisplayIte
 
                     ItemStack dust = oreWasher.getRandomDust();
                     MachineRecipe recipe = new MachineRecipe(12 / getSpeed(), new ItemStack[] {acceptableInput},
-                            new ItemStack[] {dust});
+                        new ItemStack[] {dust});
 
                     if (menu.fits(recipe.getOutput()[0], getOutputSlots())) {
                         menu.consumeItem(slot);

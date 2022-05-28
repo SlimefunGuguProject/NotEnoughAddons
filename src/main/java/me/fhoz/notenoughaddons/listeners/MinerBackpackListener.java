@@ -1,10 +1,11 @@
 package me.fhoz.notenoughaddons.listeners;
 
-import java.util.Map;
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.fhoz.notenoughaddons.NotEnoughAddons;
+import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
+import me.fhoz.notenoughaddons.utils.Utils;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,14 +14,8 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.fhoz.notenoughaddons.NotEnoughAddons;
-import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
-import me.fhoz.notenoughaddons.utils.Utils;
+import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class MinerBackpackListener implements Listener {
     private final NotEnoughAddons plugin;
@@ -29,7 +24,7 @@ public class MinerBackpackListener implements Listener {
 
     public MinerBackpackListener(@Nonnull NotEnoughAddons plugin, @Nonnull MinerBackpack minerBackpack) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        
+
         this.plugin = plugin;
         this.minerBackpack = minerBackpack;
     }
@@ -66,7 +61,7 @@ public class MinerBackpackListener implements Listener {
     private void addOre(Player p, ItemStack minerBackpackItem, PlayerBackpack backpack, ItemStack pickedItemStack) {
         Inventory inv = backpack.getInventory();
         if (inv.firstEmpty() == -1) {
-            Utils.send(p, "&6Miner Backpack &r is full");
+            Utils.send(p, "&6矿工背包 &r已满");
             return;
         }
         Map<Integer, ItemStack> notRemoved = p.getInventory().removeItem(pickedItemStack);
@@ -80,7 +75,7 @@ public class MinerBackpackListener implements Listener {
             pickedItemStack.setAmount(pickedItemStack.getAmount() - toRemove);
             inv.addItem(pickedItemStack);
         }
-        
+
         backpack.markDirty();
     }
 }

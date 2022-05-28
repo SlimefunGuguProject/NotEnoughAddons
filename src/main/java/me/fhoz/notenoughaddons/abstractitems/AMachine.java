@@ -43,20 +43,20 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
 
     public static Map<Block, MachineRecipe> processing = new HashMap<>();
     public static Map<Block, Integer> progress = new HashMap<>();
-    
+
     protected final List<MachineRecipe> recipes = new ArrayList<>();
 
     private int energyConsumedPerTick = -1;
     private int energyCapacity = -1;
     private int processingSpeed = -1;
 
-    private static final int[] BORDER = new int[] {0,1,2,3,4,5,6,7,8,13,31,36,37,38,39,40,41,42,43,44};
-    private static final int[] BORDER_IN = new int[] {9,10,11,12,18,21,27,28,29,30};
-    private static final int[] BORDER_OUT = new int[] {14,15,16,17,23,26,32,33,34,35};
+    private static final int[] BORDER = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
+    private static final int[] BORDER_IN = new int[] {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
+    private static final int[] BORDER_OUT = new int[] {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
     private static final int PROGRESS_BAR_SLOT = 22;
 
-    private static final int[] INPUT_SLOTS = new int[] {19,20};
-    private static final int[] OUTPUT_SLOTS = new int[] {24,25};
+    private static final int[] INPUT_SLOTS = new int[] {19, 20};
+    private static final int[] OUTPUT_SLOTS = new int[] {24, 25};
 
     @ParametersAreNonnullByDefault
     public AMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -68,24 +68,24 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
                 public void init() {
                     constructMenu(this);
                 }
-    
+
                 @Override
                 public void newInstance(BlockMenu menu, Block b) {
-                        newMachineInstance(menu, b);
-    
+                    newMachineInstance(menu, b);
+
                 }
-    
+
                 @Override
                 public boolean canOpen(Block b, Player p) {
                     return p.hasPermission("slimefun.inventory.bypass") ||
-                            Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+                        Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
                 }
-    
+
                 @Override
                 public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                     return new int[0];
                 }
-    
+
                 @Override
                 public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
                     if (flow == ItemTransportFlow.INSERT) {
@@ -94,12 +94,12 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
                         return getOutputSlots();
                     }
                 }
-    
+
             };
         }
-        
+
         addItemHandler(onBreak());
-    
+
     }
 
     private BlockBreakHandler onBreak() {
@@ -112,20 +112,22 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getInputSlots());
                     inv.dropItems(b.getLocation(), getOutputSlots());
-    
+
                 }
-    
+
                 processing.remove(b);
                 progress.remove(b);
                 blockExtras(b);
             }
-            
+
         };
     }
-    
-    public void blockExtras(Block b) { }
 
-    public void newMachineInstance(BlockMenu menu, Block b) { }
+    public void blockExtras(Block b) {
+    }
+
+    public void newMachineInstance(BlockMenu menu, Block b) {
+    }
 
     @ParametersAreNonnullByDefault
     public AMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -135,13 +137,13 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
 
     public void constructMenu(BlockMenuPreset preset) {
         List<int[]> borders = getBorders();
-        
+
         preset.drawBackground(borders.get(0));
         preset.drawBackground(ChestMenuUtils.getInputSlotTexture(), borders.get(1));
         preset.drawBackground(ChestMenuUtils.getOutputSlotTexture(), borders.get(2));
-        
+
         preset.addItem(getProgressBarSlot(), new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
-        preset.addMenuClickHandler(getProgressBarSlot(), ChestMenuUtils.getEmptyClickHandler());   
+        preset.addMenuClickHandler(getProgressBarSlot(), ChestMenuUtils.getEmptyClickHandler());
     }
 
     public boolean isGraphical() {
@@ -167,7 +169,7 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
         addItemHandler(new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem  sfItem, Config data) {
+            public void tick(Block b, SlimefunItem sfItem, Config data) {
                 AMachine.this.tick(b);
             }
 
@@ -211,7 +213,7 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
                 progress.put(b, timeLeft - 1);
 
             } else {
-                inv.replaceExistingItem(getProgressBarSlot(),new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
+                inv.replaceExistingItem(getProgressBarSlot(), new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                 for (ItemStack output : processing.get(b).getOutput()) {
                     inv.pushItem(output.clone(), getOutputSlots());
@@ -279,7 +281,8 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
     }
 
     //Recipe Related Shenanigans
-    protected void registerDefaultRecipes() {}
+    protected void registerDefaultRecipes() {
+    }
 
     public List<MachineRecipe> getMachineRecipes() {
         return recipes;
@@ -289,7 +292,7 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
         List<ItemStack> displayRecipes = new ArrayList<>();
 
         for (MachineRecipe recipe : recipes) {
-            if (recipe.getInput().length != 1 ) {
+            if (recipe.getInput().length != 1) {
                 continue;
             }
 
@@ -354,7 +357,7 @@ public abstract class AMachine extends SlimefunItem implements EnergyNetComponen
     public final AMachine setEnergyCapacity(int capacity) {
         Validate.isTrue(capacity > 0, "Energy capacity must be greater then 0");
 
-        if(getState() == ItemState.UNREGISTERED) {
+        if (getState() == ItemState.UNREGISTERED) {
             this.energyCapacity = capacity;
             return this;
         } else {

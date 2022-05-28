@@ -1,7 +1,7 @@
 package me.fhoz.notenoughaddons.utils;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +16,7 @@ public final class Constants {
 
     public static final int MAX_STACK_SIZE = 64;
 
-    private Constants() {}
+    private Constants() {
+    }
 
 }
