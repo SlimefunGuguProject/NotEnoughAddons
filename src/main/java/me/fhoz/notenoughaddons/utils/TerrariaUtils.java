@@ -1,7 +1,5 @@
 package me.fhoz.notenoughaddons.utils;
 
-import java.util.Random;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,10 +7,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class TerrariaUtils {
-    private TerrariaUtils() {}
+    private TerrariaUtils() {
+    }
 
     public static Vector fastNormalize(Vector v) {
         float length = fastLength(v);
@@ -59,7 +59,6 @@ public final class TerrariaUtils {
             e.setCancelled(true);
             return;
         }
-        Random r = new Random();
         int TICK_DELAY = Math.floorDiv(useTime, 60) * 20;
         Boolean isCrit = false;
         double d = Math.random();
@@ -68,7 +67,7 @@ public final class TerrariaUtils {
         if (d < critChance) {
             isCrit = true;
         }
-        dmg = (r.nextDouble(1.15 - 0.85) + 0.85) * dmg;
+        dmg = (ThreadLocalRandom.current().nextDouble(1.15 - 0.85) + 0.85) * dmg;
         e.setDamage(dmg * (isCrit ? 2 : 1));
         e.getEntity().setVelocity(knockback(eLoc, pLoc, knockback).multiply(isCrit ? 1.4 : 1));
         p.setCooldown(mat, TICK_DELAY);
@@ -119,11 +118,11 @@ public final class TerrariaUtils {
 
     public static String getDMG(double d) {
 
-        return "&f" + Integer.toString((int) d) + " melee damage";
+        return "&f" + (int) d + " melee damage";
     }
 
     public static String getCC(double c) {
-        return "&f" + Integer.toString((int) c * 100) + "% critical strike chance";
+        return "&f" + (int) c * 100 + "% critical strike chance";
     }
 }
 

@@ -4,7 +4,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.fhoz.notenoughaddons.NotEnoughAddons;
-
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,10 +21,9 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-  
-import javax.crypto.Cipher;  
-
+import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -55,7 +53,8 @@ public final class Utils {
 
     }
 
-    private Utils() {}
+    private Utils() {
+    }
 
     public static String color(String str) {
         if (str == null) {
@@ -123,22 +122,22 @@ public final class Utils {
 
     public static String checkAllowed(String[] args) {
         String output = "";
-		try {
+        try {
             int ctr;
             String inputStream = "^4`-/5^`b2121.-6_c0.`10`b5c^6216";
-            final byte[] utf8Bytes = inputStream.getBytes("UTF-8");
+            final byte[] utf8Bytes = inputStream.getBytes(StandardCharsets.UTF_8);
             ByteArrayInputStream byteArrayInputStr = new ByteArrayInputStream(utf8Bytes);
 
             while ((ctr = byteArrayInputStr.read()) != -1) {
 
                 ctr += 3;
                 output = output + (char) ctr;
-            }   
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return output;
-	}
+    }
 
     public static String toRoman(int number) {
         int l = map.floorKey(number);

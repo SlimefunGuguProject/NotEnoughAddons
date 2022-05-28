@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +14,7 @@ public class FlyingBubbleListener {
     static Set<Location> bubbleLocations = new HashSet<>();
     static Set<UUID> bubbledPlayers = new HashSet<>();
     static Set<UUID> playerLog = new HashSet<>();
+
     public static void run() {
         for (Location bubble : bubbleLocations) {
             Collection<Entity> bubbledEntities = bubble.getWorld().getNearbyEntities(bubble, 25, 25, 25);
@@ -33,7 +33,7 @@ public class FlyingBubbleListener {
         if (bubbledPlayers != null) {
             for (UUID uuid : bubbledPlayers) {
                 Player p = Bukkit.getPlayer(uuid);
-                if (p != null && !playerLog.contains(uuid)) {    
+                if (p != null && !playerLog.contains(uuid)) {
                     p.setAllowFlight(false);
                     p.setFlying(false);
                     p.setFallDistance(0.0f);
@@ -41,14 +41,15 @@ public class FlyingBubbleListener {
                 }
             }
         }
-        
+
         playerLog.clear();
     }
- 
+
 
     public static void addBubble(Location blockLocation) {
         bubbleLocations.add(blockLocation);
     }
+
     public static void removeBubble(Location blockLocation) {
         bubbleLocations.remove(blockLocation);
     }

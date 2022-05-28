@@ -1,16 +1,15 @@
 package me.fhoz.notenoughaddons.terraria.weapons.shortsword;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.fhoz.notenoughaddons.utils.TerrariaUtils;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class LeadShortsword extends SimpleSlimefunItem<WeaponUseHandler> {
     private static final double DAMAGE = 9;
@@ -24,7 +23,8 @@ public class LeadShortsword extends SimpleSlimefunItem<WeaponUseHandler> {
     }
 
     @Override
-    public @Nonnull WeaponUseHandler getItemHandler() {
+    public @Nonnull
+    WeaponUseHandler getItemHandler() {
         return (e, p, item) -> {
             TerrariaUtils.castDamage(e, p, item, CRIT_CHANCE, DAMAGE, KNOCKBACK, USE_TIME);
         };

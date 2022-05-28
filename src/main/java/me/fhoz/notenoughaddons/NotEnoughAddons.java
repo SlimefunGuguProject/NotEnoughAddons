@@ -4,38 +4,19 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import lombok.SneakyThrows;
 import me.fhoz.notenoughaddons.crackshot.crackshot;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
-import me.fhoz.notenoughaddons.listeners.FlyingBubbleListener;
 import me.fhoz.notenoughaddons.listeners.MinerBackpackListener;
 import me.fhoz.notenoughaddons.utils.NEAItems;
 import me.fhoz.notenoughaddons.utils.Utils;
-import me.fhoz.notenoughaddons.services.UpdateService;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.permission.Permission;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -47,14 +28,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.RayTraceResult;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     private static NotEnoughAddons instance;
     public static final HashMap<ItemStack, List<Pair<ItemStack, List<RecipeChoice>>>> shapedVanillaRecipes = new HashMap<>();
     public static final HashMap<ItemStack, List<Pair<ItemStack, List<RecipeChoice>>>> shapelessVanillaRecipes =
-            new HashMap<>();
-    
-    private final UpdateService updateService = new UpdateService(this); 
+        new HashMap<>();
+
     private static Logger log = null;
     private static Economy econ = null;
 
@@ -66,7 +57,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         saveDefaultConfig();
         // Read something from your config.yml
         Config cfg = new Config(this);
-        new Thread(updateService::start, "NotEnoughAddons").start();
+
 
         this.getServer().getPluginManager().registerEvents(new crackshot(), this);
 
@@ -89,7 +80,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
                 if (!shapedVanillaRecipes.containsKey(key)) {
                     shapedVanillaRecipes.put(key,
-                            new ArrayList<>(Collections.singletonList(new Pair<>(sr.getResult(), rc))));
+                        new ArrayList<>(Collections.singletonList(new Pair<>(sr.getResult(), rc))));
                 } else {
                     shapedVanillaRecipes.get(key).add(new Pair<>(sr.getResult(), rc));
                 }
@@ -101,7 +92,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
                 // Key has a list of recipe options
                 if (!shapelessVanillaRecipes.containsKey(key)) {
                     shapelessVanillaRecipes.put(key,
-                            new ArrayList<>(Collections.singletonList(new Pair<>(slr.getResult(), slr.getChoiceList()))));
+                        new ArrayList<>(Collections.singletonList(new Pair<>(slr.getResult(), slr.getChoiceList()))));
                 } else {
                     shapelessVanillaRecipes.get(key).add(new Pair<>(slr.getResult(), slr.getChoiceList()));
                 }
@@ -110,10 +101,10 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
         // Registering Items
         NEAItemSetup.setup(this);
-        new MinerBackpackListener(this, (MinerBackpack) NEAItems.MINER_BACKPACK.getItem());    
+        new MinerBackpackListener(this, (MinerBackpack) NEAItems.MINER_BACKPACK.getItem());
         setupVault();
     }
-    
+
     @Override
     public void onDisable() {
         AngelBlock.onDisable();
@@ -121,8 +112,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command cmd, @Nonnull String label, String[] args) {
-
-
         if (args.length == 0 && !label.equalsIgnoreCase("repairweapon")) {
             Utils.send(sender, "&cInvalid command");
             return true;
@@ -163,7 +152,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
                     } else {
                         RayTraceResult rayResult = p.rayTraceBlocks(5d);
                         if (rayResult != null && rayResult.getHitBlock() != null
-                                && BlockStorage.hasBlockInfo(rayResult.getHitBlock())) {
+                            && BlockStorage.hasBlockInfo(rayResult.getHitBlock())) {
 
                             BlockStorage.addBlockInfo(rayResult.getHitBlock(), args[1], args[2]);
                             Utils.send(p, "&aInfo has been added.");
@@ -176,24 +165,10 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
                 case "SAVEPLAYERS":
                     saveAllPlayers();
                     return true;
-                case "GETLATEST":
-                    Utils.send(p, "&eThe latest version is " + UpdateService.getLatestVersion());
-                    return true;
-                case "DOWNLOAD":
-                    if (UpdateService.getLatestVersion() <= Integer.parseInt(this.getPluginVersion())) {
-                        Utils.send(p, "&eFailed to download NotEnoughAddons build: #" + UpdateService.getLatestVersion());
-                        Utils.send(p, "&ePerhaps its already up to date?");
-                    } else if (UpdateService.checkForUpdate(this.getPluginVersion())) {
-                        Utils.send(p, "&eSuccessfully downloaded NotEnoughAddons build: #" + UpdateService.getLatestVersion());
-                    } else {
-                        Utils.send(p, "&eFailed to download NotEnoughAddons build: #" + UpdateService.getLatestVersion());
-                        Utils.send(p, "&ePerhaps its already up to date?");
-                    }
-                    return true;
-                }
+            }
         }
 
-        Utils.send(p, "&cCommand not found");
+        Utils.send(p, "&c指令不存在");
         return false;
     }
 
@@ -209,13 +184,13 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         }
 
         if (players > 0) {
-            Bukkit.getLogger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
+            Bukkit.getLogger().log(Level.INFO, "已自动保存 {0} 位玩家的数据!", players);
         }
     }
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/Fhoz/NotEnoughAddons/issues";
+        return "https://github.com/SlimefunGuguProject/NotEnoughAddons/issues";
     }
 
     @Nonnull
@@ -226,10 +201,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
     public static NotEnoughAddons getInstance() {
         return instance;
-    }
-
-    public static @Nonnull UpdateService getUpdateService() {
-        return instance.updateService;
     }
 
     private void setupVault() {

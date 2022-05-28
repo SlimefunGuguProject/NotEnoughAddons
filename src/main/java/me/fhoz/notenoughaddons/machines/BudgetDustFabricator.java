@@ -1,18 +1,18 @@
 package me.fhoz.notenoughaddons.machines;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricDustWasher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWasher;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import me.fhoz.notenoughaddons.utils.Constants;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -74,7 +74,7 @@ public class BudgetDustFabricator extends AContainer implements RecipeDisplayIte
 
                     ItemStack dust = oreWasher.getRandomDust();
                     MachineRecipe recipe = new MachineRecipe(12 / getSpeed(), new ItemStack[] {acceptableInput},
-                            new ItemStack[] {dust});
+                        new ItemStack[] {dust});
 
                     if (menu.fits(recipe.getOutput()[0], getOutputSlots())) {
                         menu.consumeItem(slot);

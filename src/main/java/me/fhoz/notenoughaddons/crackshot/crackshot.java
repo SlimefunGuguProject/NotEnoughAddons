@@ -1,38 +1,34 @@
 package me.fhoz.notenoughaddons.crackshot;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-
 import com.shampaggon.crackshot.CSUtility;
 import com.shampaggon.crackshot.events.WeaponReloadEvent;
-
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
 import me.fhoz.notenoughaddons.NotEnoughAddons;
 import me.fhoz.notenoughaddons.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
 
 public class crackshot implements Listener {
     CSUtility csu = new CSUtility();
     private static final NamespacedKey key = new NamespacedKey(NotEnoughAddons.getInstance(), "doerability");
-    private static final String[] ammoNameArray = new String[]{"&6Filled Flammenwerfer Tank", 
-        "§c40mm HE Grenade", 
-        "§eTaser Cartridge", 
+    private static final String[] ammoNameArray = new String[] {"&6Filled Flammenwerfer Tank",
+        "§c40mm HE Grenade",
+        "§eTaser Cartridge",
         "§67.62 NATO",
         "§68mm Mauser",
         "§65.56 NATO",
@@ -65,7 +61,7 @@ public class crackshot implements Listener {
             }
         }
         Damageable weaponMeta = (Damageable) weapon.getItemMeta();
-        
+
         PersistentDataContainer itemData = weaponMeta.getPersistentDataContainer();
         if (itemData.get(key, PersistentDataType.INTEGER) == null) {
             weaponMeta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
@@ -94,9 +90,9 @@ public class crackshot implements Listener {
     }
 
     @Nonnull
-	public static void repairWeapon(Economy econ, Player p) {
+    public static void repairWeapon(Economy econ, Player p) {
         ItemStack item = p.getInventory().getItemInMainHand();
-        
+
         if (!item.hasItemMeta()) {
             Utils.send(p, "Hold your weapon in your main hand and then run the command to repair it.");
             return;

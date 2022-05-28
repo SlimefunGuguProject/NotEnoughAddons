@@ -9,8 +9,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import me.fhoz.notenoughaddons.abstractitems.AMachine;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,9 +31,9 @@ import java.util.UUID;
 public class FlyingBubble extends AMachine {
     private static final Map<Location, Set<UUID>> allEnabledPlayers = new HashMap<>();
     private static final Set<UUID> allUuids = new HashSet<>();
-    private static final int[] BORDER = new int[] { 1, 2, 6, 7, 9, 10, 11, 15, 16, 17, 19, 20, 24, 25 };
-    private static final int[] BORDER_IN = new int[] { 3, 4, 5, 12, 14, 21, 22, 23 };
-    private static final int[] BORDER_OUT = new int[] { 0, 8, 18, 26 };
+    private static final int[] BORDER = new int[] {1, 2, 6, 7, 9, 10, 11, 15, 16, 17, 19, 20, 24, 25};
+    private static final int[] BORDER_IN = new int[] {3, 4, 5, 12, 14, 21, 22, 23};
+    private static final int[] BORDER_OUT = new int[] {0, 8, 18, 26};
 
     public FlyingBubble(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -89,9 +87,7 @@ public class FlyingBubble extends AMachine {
         for (Map.Entry<Location, Set<UUID>> entry : allEnabledPlayers.entrySet()) {
             Set<UUID> uuidSet = entry.getValue();
             for (UUID uuid : uuidSet) {
-                if (!allUuids.contains(uuid)) {
-                    allUuids.add(uuid);
-                }
+                allUuids.add(uuid);
             }
         }
 
@@ -102,10 +98,10 @@ public class FlyingBubble extends AMachine {
             p.setFallDistance(0.0f);
         }
     }
-        
+
     private ItemHandler onBlockBreak() {
         return new BlockBreakHandler(false, false) {
-        
+
             @Override
             public void onPlayerBreak(BlockBreakEvent e, ItemStack tool, List<ItemStack> drops) {
                 if (allEnabledPlayers.get(e.getBlock().getLocation()) != null) {
@@ -125,7 +121,7 @@ public class FlyingBubble extends AMachine {
     public boolean isGraphical() {
         return false;
     }
-    
+
     @Override
     public String getMachineIdentifier() {
         return "FLYING_BUBBLE";
@@ -137,10 +133,10 @@ public class FlyingBubble extends AMachine {
         borders.add(BORDER);
         borders.add(BORDER_IN);
         borders.add(BORDER_OUT);
-        
+
         return borders;
     }
-    
+
     @Override
     public int[] getInputSlots() {
         return new int[] {13};
@@ -155,10 +151,10 @@ public class FlyingBubble extends AMachine {
     public ItemStack getProgressBar() {
         return new ItemStack(Material.DRAGON_EGG);
     }
-    
+
     @Override
     public int getProgressBarSlot() {
         return 4;
     }
-    
+
 }

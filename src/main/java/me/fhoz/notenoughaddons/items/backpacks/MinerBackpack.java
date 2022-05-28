@@ -1,22 +1,18 @@
 package me.fhoz.notenoughaddons.items.backpacks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
-import me.fhoz.notenoughaddons.listeners.MinerBackpackListener;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MinerBackpack extends SlimefunBackpack {
 
@@ -27,7 +23,7 @@ public class MinerBackpack extends SlimefunBackpack {
 
 
     public MinerBackpack(int size, ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
-            ItemStack[] recipe) {
+                         ItemStack[] recipe) {
         super(size, itemGroup, item, recipeType, recipe);
         //TODO Auto-generated constructor stub
 
@@ -61,7 +57,7 @@ public class MinerBackpack extends SlimefunBackpack {
 
         return defaultWhitelist;
     }
-    
+
     private List<String> ToStringList(List<Material> mats) {
         List<String> materials = new ArrayList<>();
 
