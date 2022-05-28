@@ -75,54 +75,54 @@ public final class TerrariaUtils {
 
     public static String useTimeConv(int t) {
         if (t <= 8) {
-            return "&fInsanely fast speed";
+            return "&f超快";
         } else if (9 <= t && t <= 20) {
-            return "&fVery fast speed";
+            return "&f很快";
         } else if (21 <= t && t <= 25) {
-            return "&fFast speed";
+            return "&f快";
         } else if (26 <= t && t <= 30) {
-            return "&fAverage speed";
+            return "&f普通";
         } else if (31 <= t && t <= 35) {
-            return "&fSlow speed";
+            return "&f慢";
         } else if (36 <= t && t <= 45) {
-            return "&fVery slow speed";
+            return "&f很慢";
         } else if (46 <= t && t <= 55) {
-            return "&fExtremely slow speed";
+            return "&f极慢";
         } else {
-            return "Snail speed";
+            return "&f蜗牛";
         }
     }
 
     public static String kbConv(double k) {
         if (k == 0) {
-            return "&fNo knockback";
+            return "&f无击退力";
         } else if (k <= 1.5) {
-            return "&fExtremely weak knockback";
+            return "&f极弱击退力";
         } else if (k <= 3) {
-            return "&fVery weak knockback";
+            return "&f很弱击退力";
         } else if (k <= 4) {
-            return "&fWeak knockback";
+            return "&f较弱击退力";
         } else if (k <= 6) {
-            return "&fAverage knockback";
+            return "&f普通击退力";
         } else if (k <= 7) {
-            return "&fStrong knockback";
+            return "&f较强击退力";
         } else if (k <= 9) {
-            return "&fVery strong knockback";
+            return "&f很强击退力";
         } else if (k <= 11) {
-            return "&fExtremely strong knockback";
+            return "&f极强击退力";
         } else if (k > 11) {
-            return "&fInsane knockback";
+            return "&f疯狂击退力";
         }
-        return "error";
+        return "&f未知击退力";
     }
 
     public static String getDMG(double d) {
 
-        return "&f" + (int) d + " melee damage";
+        return "&f" + (int) d + " 近战伤害";
     }
 
     public static String getCC(double c) {
-        return "&f" + (int) c * 100 + "% critical strike chance";
+        return "&f" + (int) c * 100 + "% 暴击率";
     }
 }
 

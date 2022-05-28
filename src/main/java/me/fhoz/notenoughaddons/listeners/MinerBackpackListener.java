@@ -61,7 +61,7 @@ public class MinerBackpackListener implements Listener {
     private void addOre(Player p, ItemStack minerBackpackItem, PlayerBackpack backpack, ItemStack pickedItemStack) {
         Inventory inv = backpack.getInventory();
         if (inv.firstEmpty() == -1) {
-            Utils.send(p, "&6Miner Backpack &r is full");
+            Utils.send(p, "&6矿工背包 &r已满");
             return;
         }
         Map<Integer, ItemStack> notRemoved = p.getInventory().removeItem(pickedItemStack);
