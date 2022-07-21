@@ -17,10 +17,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import lombok.SneakyThrows;
-import me.fhoz.notenoughaddons.crackshot.crackshot;
 import me.fhoz.notenoughaddons.items.AngelBlock;
 import me.fhoz.notenoughaddons.items.backpacks.MinerBackpack;
-import me.fhoz.notenoughaddons.listeners.FlyingBubbleListener;
 import me.fhoz.notenoughaddons.listeners.MinerBackpackListener;
 import me.fhoz.notenoughaddons.utils.NEAItems;
 import me.fhoz.notenoughaddons.utils.Utils;
@@ -68,7 +66,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         Config cfg = new Config(this);
         new Thread(updateService::start, "NotEnoughAddons").start();
 
-        this.getServer().getPluginManager().registerEvents(new crackshot(), this);
 
         // Register ACT Recipes
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
@@ -111,7 +108,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         // Registering Items
         NEAItemSetup.setup(this);
         new MinerBackpackListener(this, (MinerBackpack) NEAItems.MINER_BACKPACK.getItem());    
-        setupVault();
     }
     
     @Override
@@ -135,10 +131,6 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
 
         Player p = (Player) sender;
 
-        if (label.equalsIgnoreCase("repairweapon")) {
-            crackshot.repairWeapon(econ, p);
-            return true;
-        }
 
         switch (args[0].toUpperCase()) {
             case "META":
@@ -232,25 +224,7 @@ public class NotEnoughAddons extends JavaPlugin implements SlimefunAddon {
         return instance.updateService;
     }
 
-    private void setupVault() {
-        if (!setupEconomy()) {
-            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-    }
 
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
 
     @Nullable
     public static BukkitTask runSync(@Nonnull Runnable runnable) {
